@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym App</title>
+    <style>
+        body {
+            display: table-row;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 40px;
+            color: #f0d841;
+            background-color: #222222;
+        }
+        header {
+            background-color: #f0d841;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 84px;
+            color: white;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #222222;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 5px;
+        }
+
+        nav {
+            text-align: center;
+            background-color: #222222;
+            padding: 5px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 60px;
+            font-size: 30px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color:#f0d841;
+        }
+
+        #space {
+            height: 7px;
+            background-color: #f0d841;
+        }
+
+        section {
+            background-color: #222222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        section h3 {
+            color: #f0d841;
+            text-align: left;
+            font-size: 30px;
+            margin-left: 350px;
+
+        }
+
+
+        section p {
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: left;
+            line-height: 15px;
+            margin-left: 350px;
+        }
+
+        section ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-left: 350px;
+
+        }
+
+        section ul li {
+            margin-bottom: 10px;
+        }
+
+        section img {
+            width: 100%; /* Rozszerza obraz na całą szerokość sekcji */
+            max-width: 100%; /* Zapobiega przekraczaniu oryginalnej szerokości obrazu */
+            height: auto; /* Zapewnia proporcjonalne skalowanie obrazu */
+        }
+
+        footer {
+            background-color: #f0d841;
+            text-align: center;
+            padding: 5px;
+        }
+
+        #end {
+            background-color: #222222;
+            color: white;
+            text-align: center;
+            height: 60px;
+            width: auto;
+            padding-top: 30px;
+
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: black;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<header>
+    <h1 th:text="${logo}"></h1>
+
+    <h2 th:text="${logo2}"></h2>
+</header>
+
+<nav>
+    <a th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
+</nav>
+
+<div id="space"> </div>
+
+<section>
+    <h3>Witamy na stronie GymHelper !</h3>
+    <p>Strona została stworzona dla amatorów, którzy chcą zacząć z siłownią, a nie wiedzą jak się za to wziąć,</p>
+    <p>a także dla tych, którzy chcą sobie przypomnieć wiedzę lub dowiedzieć się czegoś nowego.</p>
+    <br>
+    <p>Na stronie znajdziesz przede wszystkim:</p>
+    <ul>
+        <li>🔸 Porady: jak zacząć z siłownią, jak zacząć redukować, jak zacząć masować</li>
+        <li>🔸 Kalkulator BMI</li>
+        <li>🔸 Gotowe plany treningowe</li>
+        <li>🔸 Kalkulator ciężaru maksymalnego, który pozwoli ci sprawdzić swój MAX za pomocą ilości powtórzeń i ciężaru</li>
+    </ul>
+    <img src="src/Gym.jpG" alt="Opis zdjęcia">
+</section>
+
+
+<footer>
+    <p1>CORPORATE FITNESS 🔸 NUTRITIONAL ADVICE 🔸 WEIGHT LOSS 🔸 MUSCLE TONE 🔸 CORE STREMGHT 🔸 POSTURE CORRECTION 🔸 CARDIO FITNESS</p1>
+
+</footer>
+
+<div id="end">
+    <p1>@ 2035 by GymHelper</p1>
+</div>
+
+
+</body>
+</html>
