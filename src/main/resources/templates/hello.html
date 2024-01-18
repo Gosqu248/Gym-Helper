@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym App</title>
+
     <style>
         body {
             display: table-row;
@@ -18,18 +19,18 @@
         header {
             background-color: #f0d841;
             text-align: center;
-            padding: 20px;
+            height: 120px;
         }
 
         h1 {
             margin: 0;
-            font-size: 84px;
+            font-size: 74px;
             color: white;
         }
 
         h2 {
             margin: 0;
-            font-size: 24px;
+            font-size: 20px;
             color: #222222;
             font-family: 'Courier New', Courier, monospace;
             margin-top: 5px;
@@ -65,45 +66,87 @@
             text-align: center;
         }
 
-        section h3 {
-            color: #f0d841;
-            text-align: left;
-            font-size: 30px;
-            margin-left: 350px;
+        #img {
+            background-image: url('/img/Gym.jpg');
+            width: 1441px;
+            height: 600px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            align-items: center;
+        }
+
+        .ellipse-container {
+            position: relative;
+            margin: 0px auto;
+            width: 1200px;
+            height: 600px;
+            align-items: center;
+        }
+
+        .ellipse-image {
+            position: absolute;
+
+            background: radial-gradient(ellipse at center, rgba(80, 83, 81, 0.9) 0%, rgba(80, 83, 81, 0.9) 90%, rgba(240, 216, 65, 0) 100%);
+            background-size: cover;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            z-index: 1;
+            align-items: center;
+        }
+
+        #text {
+            width: 750px;
+            margin: 0 auto; /* Dodaj to, aby wyśrodkować w poziomie */
+            display: flex; /* Ustawiamy na flex container */
+            flex-direction: column; /* Układ wertykalny */
+            justify-content: center; /* Wyśrodkowanie wertykalne */
+            align-items: center; /* Wyśrodkowanie poziome */
 
         }
 
 
-        section p {
-            font-size: 16px;
+        section h3 {
+            color: #f0d841;
+            text-align: center;
+            font-size: 30px;
+            padding-top: 20px;
+
+        }
+
+
+        section p,p2 {
+            font-size: 18px;
             line-height: 1.5;
             text-align: left;
-            line-height: 15px;
-            margin-left: 350px;
+        }
+
+        section p2 {
+            font-weight: bold;
         }
 
         section ul {
             list-style: none;
             padding: 0;
             text-align: left;
-            margin-left: 350px;
 
         }
 
         section ul li {
             margin-bottom: 10px;
+            font-size: 16px;
         }
 
-        section img {
-            width: 100%; /* Rozszerza obraz na całą szerokość sekcji */
-            max-width: 100%; /* Zapobiega przekraczaniu oryginalnej szerokości obrazu */
-            height: auto; /* Zapewnia proporcjonalne skalowanie obrazu */
-        }
+
 
         footer {
             background-color: #f0d841;
             text-align: center;
             padding: 5px;
+            color: black;
+            font-size: 19px;
         }
 
         #end {
@@ -112,6 +155,7 @@
             text-align: center;
             height: 60px;
             width: auto;
+            font-size: 30px;
             padding-top: 30px;
 
         }
@@ -138,29 +182,30 @@
 
 <div id="space"> </div>
 
-<section>
-    <h3>Witamy na stronie GymHelper !</h3>
-    <p>Strona została stworzona dla amatorów, którzy chcą zacząć z siłownią, a nie wiedzą jak się za to wziąć,</p>
-    <p>a także dla tych, którzy chcą sobie przypomnieć wiedzę lub dowiedzieć się czegoś nowego.</p>
-    <br>
-    <p>Na stronie znajdziesz przede wszystkim:</p>
-    <ul>
-        <li>🔸 Porady: jak zacząć z siłownią, jak zacząć redukować, jak zacząć masować</li>
-        <li>🔸 Kalkulator BMI</li>
-        <li>🔸 Gotowe plany treningowe</li>
-        <li>🔸 Kalkulator ciężaru maksymalnego, który pozwoli ci sprawdzić swój MAX za pomocą ilości powtórzeń i ciężaru</li>
-    </ul>
-    <img src="src/Gym.jpG" alt="Opis zdjęcia">
+<section id="img">
+    <div class="ellipse-container">
+        <div class="ellipse-image">
+            <div id="text">
+                <h3 th:text="${welcome}"></h3>
+                <p th:text="${sectionText}"></p>
+                <br>
+                <p2 th:text="${what}"></p2>
+                <ul>
+                    <li th:each="feature : ${pageFeatures}" th:text="${feature}"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 </section>
 
 
 <footer>
-    <p1>CORPORATE FITNESS 🔸 NUTRITIONAL ADVICE 🔸 WEIGHT LOSS 🔸 MUSCLE TONE 🔸 CORE STREMGHT 🔸 POSTURE CORRECTION 🔸 CARDIO FITNESS</p1>
-
+    <p1 th:text="${footerText}"></p1>
 </footer>
 
 <div id="end">
-    <p1>@ 2035 by GymHelper</p1>
+    <p1 th:text="${endText}"></p1>
 </div>
 
 
