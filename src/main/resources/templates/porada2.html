@@ -15,6 +15,7 @@
             font-size: 40px;
             color: #f0d841;
             background-color: #222222;
+
         }
 
         header {
@@ -86,7 +87,7 @@
             width: 800px;
             margin: auto;
             font-family: system-ui;
-
+            line-height: 0.5;
         }
 
         .content h1,h3 {
@@ -109,8 +110,13 @@
         .content h4 {
             color: white;
             animation: fadeInLeft 1.5s ease-in-out;
-            font-size: 15px;
+            font-size: 12px;
+        }
+
+        .content p {
             line-height: 1.5;
+            font-size: 15px;
+
         }
 
         footer {
@@ -152,29 +158,29 @@
 
 
 <div class="content">
-    <br>
-    <br>
+    <br><br><br><br><br><br>
     <h1 th:text="${name}"></h1>
-    <br>
 
-    <p th:text="${text1}"></p>
-
-    <br>
-
+    <br><br><br><br>
     <h3 th:text="${name2}"></h3>
-    <p th:text="${text2}"></p>
+    <p th:text="${text21}"></p>
+    <i th:text="${text22}"></i>
+    <b th:text="${text23}"></b>
+    <i th:text="${text24}"></i>
+    <b th:text="${text25}"></b>
 
-    <br>
+    <br><br><br>
     <h3 th:text="${name3}"></h3>
-    <p th:text="${text3}"></p>
-    <ul>
-        <li th:each="element : ${podsumowanieList}" th:text="${element}"></li>
-    </ul>
+    <p th:text="${text31}"></p>
+    <p th:text="${text32}"></p>
 
-    <p th:text="${text4}"> &#128578;</p>
-
-    <br>
-    <br>
+    <br><br>
+    <h3 th:text="${name4}"></h3>
+    <p th:text="${text41}"></p>
+    <p th:text="${text42}"></p>
+    <i th:text="${text43}"></i>
+    <b th:text="${text44}"></b>
+    <br><br><br><br>
 </div>
 
 <footer>
