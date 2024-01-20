@@ -70,12 +70,37 @@
             align-items: center;
             display: flex;
             flex-direction: column;
+            font-family: system-ui;
+
+        }
+
+        @keyframes gradientChange {
+            0% {
+                color: #00bfff;
+            }
+            25% {
+                color: #26de26;
+            }
+            50% {
+                color: #f0d841;
+            }
+            75% {
+                color: #ed6511;
+            }
+            100% {
+                color: #00bfff;
+            }
         }
 
         section h3 {
-            color: #f0d841;
             text-align: center;
             font-size: 30px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #f0d841, #00bfff, #26de26);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientChange 7s linear infinite;
         }
 
 
@@ -165,13 +190,11 @@
             </a>
         </div>
         <br>
-        <br>
         <div>
             <a th:href="${nav2}">
                 <div id="porada2"></div>
             </a>
         </div>
-        <br>
         <br>
         <div>
             <a th:href="${nav3}">

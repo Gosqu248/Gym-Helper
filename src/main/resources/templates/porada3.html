@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym App</title>
+
+    <style>
+        body {
+            display: table-row;
+            justify-content: center;
+            height: 100vh;
+            width: 1480px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 40px;
+            color: #f0d841;
+            background-color: #222222;
+
+        }
+
+        header {
+            background-color: #f0d841;
+            text-align: center;
+            height: 120px;
+            width: 1481px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 74px;
+            color: white;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #222222;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 5px;
+        }
+
+        nav {
+            text-align: center;
+            background-color: #222222;
+            padding: 5px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 60px;
+            font-size: 30px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color:#f0d841;
+        }
+
+        #space {
+            height: 7px;
+            background-color: #f0d841;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-220px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .content {
+            width: 800px;
+            margin: auto;
+            font-family: system-ui;
+            line-height: 0.5;
+        }
+
+        .content h1,h3 {
+            font-size: 25px;
+            color: white;
+            animation: rotate 1s ease-in-out;
+        }
+
+        .content h1 {
+            font-size: 40px;
+            text-align: center;
+            color: #f0d841;
+
+        }
+
+        .content p,
+        .content b,
+        .content i,
+        .content li,
+        .content h4 {
+            color: white;
+            animation: fadeInLeft 1.5s ease-in-out;
+            font-size: 16px;
+            line-height: 1.5;
+
+        }
+
+        .content p {
+            line-height: 1.5;
+            font-size: 15px;
+
+        }
+
+        footer {
+            background-color: #f0d841;
+            text-align: center;
+            padding: 5px;
+            color: black;
+            font-size: 19px;
+        }
+
+        #end {
+            background-color: #222222;
+            color: white;
+            text-align: center;
+            height: 60px;
+            width: auto;
+            font-size: 30px;
+            padding-top: 30px;
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1 th:text="${logo}"></h1>
+
+    <h2 th:text="${logo2}"></h2>
+</header>
+
+<nav>
+    <a class="nav-link" th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
+</nav>
+
+<div id="space"> </div>
+
+
+
+<div class="content">
+    <br><br><br><br><br><br>
+    <h1 th:text="${name}"></h1>
+
+    <br><br><br><br>
+    <h3 th:text="${name2}"></h3>
+    <p th:text="${text21}"></p>
+    <p th:text="${text22}"></p>
+    <h4 th:text="${text23}"></h4>
+    <p th:text="${text24}"></p>
+    <h4 th:text="${text25}"></h4>
+    <p th:text="${text26}"></p>
+    <b th:text="${text27}"> </b>
+    <ul>
+        <li th:each="element : ${wapn}" th:text="${element}"></li>
+    </ul>
+    <h4 th:text="${text28}"></h4>
+    <p th:text="${text29}"></p>
+
+    <br><br>
+    <h3 th:text="${name3}"></h3>
+    <p th:text="${text31}"></p>
+    <p th:text="${text32}"></p>
+
+    <br><br>
+    <h3 th:text="${name4}"></h3>
+    <p th:text="${text41}"></p>
+    <p th:text="${text42}"></p>
+    <br><br><br><br>
+</div>
+
+<footer>
+    <p1 th:text="${footerText}"></p1>
+</footer>
+
+<div id="end">
+    <p1 th:text="${endText}"></p1>
+</div>
+
+
+</body>
+</html>
