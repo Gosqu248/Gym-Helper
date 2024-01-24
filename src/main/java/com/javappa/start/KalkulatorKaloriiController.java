@@ -23,32 +23,7 @@ public class KalkulatorKaloriiController {
         navLinks.add("/Porady");
         model.addAttribute("navLinks", navLinks);
 
-        // Dodaj logikę generowania kalendarza
-        LocalDate currentDate = LocalDate.now();
-        List<LocalDate> calendarDays = generateCalendarDays(currentDate);
-        model.addAttribute("currentDate", currentDate);
-        model.addAttribute("calendarDays", calendarDays);
-
         return "calorie_calculator";
     }
 
-    private List<LocalDate> generateCalendarDays(LocalDate currentDate) {
-        List<LocalDate> calendarDays = new ArrayList<>();
-        int daysBeforeAndAfter = 5;
-
-        // Dodaj dni przed bieżącą datą
-        for (int i = daysBeforeAndAfter; i > 0; i--) {
-            calendarDays.add(currentDate.minusDays(i));
-        }
-
-        // Dodaj bieżącą datę
-        calendarDays.add(currentDate);
-
-        // Dodaj dni po bieżącej dacie
-        for (int i = 1; i <= daysBeforeAndAfter; i++) {
-            calendarDays.add(currentDate.plusDays(i));
-        }
-
-        return calendarDays;
-    }
 }

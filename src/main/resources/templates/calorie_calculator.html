@@ -1,9 +1,50 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Calories calculator</title>
-    <style>
+
+</head>
+<body>
+<header>
+    <h1 th:text="${logo}"></h1>
+
+    <h2 th:text="${logo2}"></h2>
+</header>
+
+<nav>
+    <a class="nav-link" th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
+</nav>
+
+<div id="space"> </div>
+<div class="outer-bar">
+    <div class="circle-bar">
+        <div class="arrow-circle"></div>
+        <div id="circle1" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">A<br>1</div>
+        <div id="circle2" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">B<br>2</div>
+        <div id="circle3" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">C<br>3</div>
+        <div id="circle4" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">D<br>4</div>
+        <div id="circle5" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">E<br>5</div>
+
+        <div id="circleCurrent" class="circleCurrent">E<br>5</div>
+
+        <div id="circle6" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">F<br>6</div>
+        <div id="circle7" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">G<br>7</div>
+        <div id="circle8" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">H<br>8</div>
+        <div id="circle9" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">I<br>9</div>
+        <div id="circle10" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">J<br>10</div>
+
+        <div class="arrow-circle reversed"></div>
+    </div>
+</div>
+
+<footer>
+    <p1 th:text="${footerText}"></p1>
+</footer>
+
+<div id="end">
+    <p1 th:text="${endText}"></p1>
+</div>
+<style>
         body {
             justify-content: center;
             height: auto;
@@ -57,24 +98,87 @@
             background-color: #f0d841;
         }
 
-        #calendar-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+        .outer-bar {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        color: black;
+        margin: 0;
         }
 
-        .day {
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            line-height: 50px;
-            border: 1px solid #ccc;
-            margin: 5px;
+        .circle-bar {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        color: black;
+        background-color: #4a4946;
+        border-radius: 25px;
         }
 
-        .today {
-            background-color: #f0f0f0;
+        .circle {
+        width: 90px;
+        height: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.5;
+        font-weight: bold;
+        font-size: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+        background-color: #757472;
+        border: 3px solid black;
+        cursor: pointer;
+        transition: background-color 0.3s;
         }
+        .circle:hover {
+        background-color: #b3b2af;
+        }
+        .circleCurrent {
+        width: 120px;
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.5;
+        vertical-align: middle;
+        font-weight: bold;
+        font-size: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+        background-color: #b3b2af;
+        border: 5px solid
+        }
+
+        .arrow-circle {
+        background-color: #b3b2af;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        position: relative;
+        }
+
+        .arrow-circle::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 5px 10px 5px 0;
+        border-color: transparent rgba(255, 255, 255, 0.9) transparent transparent;
+        }
+
+.arrow-circle.reversed::before {
+    transform: translate(-50%, -50%) rotate(180deg);
+}
 
         footer {
             background-color: #f0d841;
@@ -94,34 +198,18 @@
             padding-top: 30px;
 
         }</style>
-</head>
-<body>
-<header>
-    <h1 th:text="${logo}"></h1>
+<script>
+        function changeColor(element) {
+            element.style.backgroundColor = "#f0d841";
+        }
 
-    <h2 th:text="${logo2}"></h2>
-</header>
+        function changeHoverColor(element) {
+            element.style.backgroundColor = "#b3b2af";
+        }
 
-<nav>
-    <a class="nav-link" th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
-</nav>
-
-<div id="space"> </div>
-
-<div id="calendar-container">
-    <c:forEach var="day" items="${calendarDays}">
-        <div class="day ${day == currentDate ? 'today' : ''}">
-            ${day.dayOfMonth}
-        </div>
-    </c:forEach>
-</div>
-
-<footer>
-    <p1 th:text="${footerText}"></p1>
-</footer>
-
-<div id="end">
-    <p1 th:text="${endText}"></p1>
-</div>
+        function restoreColor(element) {
+            element.style.backgroundColor = "#757472";
+        }
+    </script>
 </body>
 </html>
