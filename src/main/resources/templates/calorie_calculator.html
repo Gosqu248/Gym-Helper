@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calories calculator</title>
+    <style>
+        body {
+            justify-content: center;
+            height: auto;
+            width: 100%;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 40px;
+            color: #f0d841;
+            background-color: #222222;
+        }
+
+        header {
+            background-color: #f0d841;
+            text-align: center;
+            height: 120px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 74px;
+            color: white;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #222222;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 5px;
+        }
+
+        nav {
+            text-align: center;
+            background-color: #222222;
+            padding: 5px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 60px;
+            font-size: 30px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color:#f0d841;
+        }
+
+        #space {
+            height: 7px;
+            background-color: #f0d841;
+        }
+
+        #calendar-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .day {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border: 1px solid #ccc;
+            margin: 5px;
+        }
+
+        .today {
+            background-color: #f0f0f0;
+        }
+
+        footer {
+            background-color: #f0d841;
+            text-align: center;
+            padding: 5px;
+            color: black;
+            font-size: 19px;
+        }
+
+        #end {
+            background-color: #222222;
+            color: white;
+            text-align: center;
+            height: 60px;
+            width: auto;
+            font-size: 30px;
+            padding-top: 30px;
+
+        }</style>
+</head>
+<body>
+<header>
+    <h1 th:text="${logo}"></h1>
+
+    <h2 th:text="${logo2}"></h2>
+</header>
+
+<nav>
+    <a class="nav-link" th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
+</nav>
+
+<div id="space"> </div>
+
+<div id="calendar-container">
+    <c:forEach var="day" items="${calendarDays}">
+        <div class="day ${day == currentDate ? 'today' : ''}">
+            ${day.dayOfMonth}
+        </div>
+    </c:forEach>
+</div>
+
+<footer>
+    <p1 th:text="${footerText}"></p1>
+</footer>
+
+<div id="end">
+    <p1 th:text="${endText}"></p1>
+</div>
+</body>
+</html>
