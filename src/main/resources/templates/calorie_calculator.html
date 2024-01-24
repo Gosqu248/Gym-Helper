@@ -2,6 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Calories calculator</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 <body>
@@ -16,24 +17,27 @@
 </nav>
 
 <div id="space"> </div>
-<div class="outer-bar">
-    <div class="circle-bar">
-        <div class="arrow-circle"></div>
-        <div id="circle1" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">A<br>1</div>
-        <div id="circle2" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">B<br>2</div>
-        <div id="circle3" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">C<br>3</div>
-        <div id="circle4" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">D<br>4</div>
-        <div id="circle5" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">E<br>5</div>
+<div class="content">
+    <div class="outer-bar">
+        <div class="circle-bar">
+            <div class="arrow-circle"></div>
+            <div class="circle" th:each="circle : ${circleContents}" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)" th:text="${circle.label + circle.value}">
+                <div>
+                    <span class="label" th:text="${circle.label}"></span><br/>
+                    <span class="value" th:text="${circle.value}"></span>
+                </div>
+            </div>
 
-        <div id="circleCurrent" class="circleCurrent">E<br>5</div>
+            <div id="circleCurrent" class="circleCurrent">E<br>5</div>
 
-        <div id="circle6" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">F<br>6</div>
-        <div id="circle7" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">G<br>7</div>
-        <div id="circle8" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">H<br>8</div>
-        <div id="circle9" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">I<br>9</div>
-        <div id="circle10" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">J<br>10</div>
+            <div id="circle6" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">F<br>6</div>
+            <div id="circle7" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">G<br>7</div>
+            <div id="circle8" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">H<br>8</div>
+            <div id="circle9" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">I<br>9</div>
+            <div id="circle10" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">J<br>10</div>
 
-        <div class="arrow-circle reversed"></div>
+            <div class="arrow-circle reversed"></div>
+        </div>
     </div>
 </div>
 
@@ -96,6 +100,13 @@
         #space {
             height: 7px;
             background-color: #f0d841;
+        }
+        .content{
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        color: black;
+        margin: 0;
         }
 
         .outer-bar {
@@ -200,16 +211,28 @@
         }</style>
 <script>
         function changeColor(element) {
-            element.style.backgroundColor = "#f0d841";
-        }
+            var circleLabel = element.querySelector('span.label').innerText;
+            var circleValue = element.querySelector('span.value').innerText;
 
-        function changeHoverColor(element) {
-            element.style.backgroundColor = "#b3b2af";
-        }
+            var data = {
+                label: circleLabel,
+                value: circleValue
+            };
 
-        function restoreColor(element) {
-            element.style.backgroundColor = "#757472";
-        }
+            $.ajax({
+                type: "POST",
+                url: "/updateCircle",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (response) {
+
+                },
+                error: function (error) {
+                    alert("Wystąpił błąd: " + error);
+                }
+                });
+            }
     </script>
+
 </body>
 </html>
