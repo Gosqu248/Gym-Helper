@@ -1,4 +1,5 @@
 <html lang="en">
+<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <title>Calories calculator</title>
@@ -18,25 +19,38 @@
 
 <div id="space"> </div>
 <div class="content">
+    <div class="text"></div>
     <div class="outer-bar">
         <div class="circle-bar">
-            <div class="arrow-circle"></div>
-            <div class="circle" th:each="circle : ${circleContents}" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)" th:text="${circle.label + circle.value}">
+            <button class="arrow-circle"></button>
+            <button class="circle" th:each="circle : ${circleContentsPrev}" onclick="updateCircle(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">
+                <div>
+                    <span class="label" th:text="${circle.label}"></span><br>
+                    <span class="value" th:text="${circle.value}"></span>
+                </div>
+            </button>
+
+            <button id="circleCurrent" class="circleCurrent">
+                <span th:text="${circleCurrentLabel}"></span><br/>
+                <span th:text="${circleCurrentValue}"></span>
+            </button>
+
+            <button class="circle" th:each="circle : ${circleContentsPost}" onclick="updateCircle(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">
                 <div>
                     <span class="label" th:text="${circle.label}"></span><br/>
                     <span class="value" th:text="${circle.value}"></span>
                 </div>
-            </div>
+            </button>
 
-            <div id="circleCurrent" class="circleCurrent">E<br>5</div>
-
-            <div id="circle6" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">F<br>6</div>
-            <div id="circle7" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">G<br>7</div>
-            <div id="circle8" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">H<br>8</div>
-            <div id="circle9" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">I<br>9</div>
-            <div id="circle10" class="circle" onclick="changeColor(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">J<br>10</div>
-
-            <div class="arrow-circle reversed"></div>
+            <button class="arrow-circle reversed"></button>
+        </div>
+    </div>
+    <div class="outer-bar-row">
+        <div th:each="meal : ${meals}" class="meal">
+            <h3 th:text="${meal.name}"></h3>
+            <ul>
+                <li th:each="name : ${meal.names}" th:text="${name}"></li>
+            </ul>
         </div>
     </div>
 </div>
@@ -134,7 +148,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        line-height: 1.5;
+        line-height: 1;
         font-weight: bold;
         font-size: 30px;
         border-radius: 50%;
@@ -144,6 +158,7 @@
         cursor: pointer;
         transition: background-color 0.3s;
         }
+
         .circle:hover {
         background-color: #b3b2af;
         }
@@ -155,7 +170,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        line-height: 1.5;
+        line-height: 1;
         vertical-align: middle;
         font-weight: bold;
         font-size: 30px;
@@ -187,9 +202,24 @@
         border-color: transparent rgba(255, 255, 255, 0.9) transparent transparent;
         }
 
-.arrow-circle.reversed::before {
-    transform: translate(-50%, -50%) rotate(180deg);
-}
+        .arrow-circle.reversed::before {
+        transform: translate(-50%, -50%) rotate(180deg);
+        }
+        .outer-bar-row {
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        display: flex;
+        color: black;
+        }
+        .meal {
+            border: 2px solid #000;
+            padding: 10px;
+            margin: 10px auto;
+            width:60%;
+            background-color: #4a4946;
+            display: block;
+        }
 
         footer {
             background-color: #f0d841;
@@ -209,30 +239,16 @@
             padding-top: 30px;
 
         }</style>
-<script>
-        function changeColor(element) {
-            var circleLabel = element.querySelector('span.label').innerText;
-            var circleValue = element.querySelector('span.value').innerText;
+<script type="text/javascript">
+    function updateCircle(button) {
+        var label = button.querySelector('.label').innerText;
+        var value = button.querySelector('.value').innerText;
+        $.post('/updateCircle', { label: label, value: value }, function(data) {
 
-            var data = {
-                label: circleLabel,
-                value: circleValue
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "/updateCircle",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (response) {
-
-                },
-                error: function (error) {
-                    alert("Wystąpił błąd: " + error);
-                }
-                });
-            }
-    </script>
+            alert('Zaktualizowano okrąg:', label, value);
+        });
+    }
+</script>
 
 </body>
 </html>
