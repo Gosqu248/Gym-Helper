@@ -22,34 +22,51 @@
     <div class="text"></div>
     <div class="outer-bar">
         <div class="circle-bar">
-            <button class="arrow-circle"></button>
-            <button class="circle" th:each="circle : ${circleContentsPrev}" onclick="updateCircle(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">
-                <div>
-                    <span class="label" th:text="${circle.label}"></span><br>
-                    <span class="value" th:text="${circle.value}"></span>
-                </div>
-            </button>
+            <form class="circle-form" th:action="@{/scrollCircles}" method="post">
+                <input type="hidden" name="direction" th:value="left" />
+                <button type="submit" class="arrow-circle"/>
+            </form>
+            <form class="circle-form" th:each="circle : ${circleContentsPrev}" th:action="@{/updateCircle}" method="post">
+                <input type="hidden" name="label" th:value="${circle.label}" />
+                <input type="hidden" name="value" th:value="${circle.value}" />
+                <button type="submit" class="circle">
+                    <div>
+                        <span class="label" th:text="${circle.label}"></span><br>
+                        <span class="value" th:text="${circle.value}"></span>
+                    </div>
+                </button>
+            </form>
 
             <button id="circleCurrent" class="circleCurrent">
-                <span th:text="${circleCurrentLabel}"></span><br/>
+                <span th:text="${circleCurrentLabel}"></span><br>
                 <span th:text="${circleCurrentValue}"></span>
             </button>
 
-            <button class="circle" th:each="circle : ${circleContentsPost}" onclick="updateCircle(this)" onmouseover="changeHoverColor(this)" onmouseout="restoreColor(this)">
-                <div>
-                    <span class="label" th:text="${circle.label}"></span><br/>
-                    <span class="value" th:text="${circle.value}"></span>
-                </div>
-            </button>
+            <form class="circle-form" th:each="circle : ${circleContentsPost}" th:action="@{/updateCircle}" method="post">
+                <input type="hidden" name="label" th:value="${circle.label}" />
+                <input type="hidden" name="value" th:value="${circle.value}" />
+                <button type="submit" class="circle">
+                    <div>
+                        <span class="label" th:text="${circle.label}"></span><br>
+                        <span class="value" th:text="${circle.value}"></span>
+                    </div>
+                </button>
+            </form>
 
-            <button class="arrow-circle reversed"></button>
+            <form class="circle-form" th:action="@{/scrollCircles}" method="post">
+                <input type="hidden" name="direction" th:value="right" />
+                <button type="submit" class="arrow-circle reversed"/>
+            </form>
         </div>
     </div>
     <div class="outer-bar-row">
         <div th:each="meal : ${meals}" class="meal">
             <h3 th:text="${meal.name}"></h3>
-            <ul>
-                <li th:each="name : ${meal.names}" th:text="${name}"></li>
+            <ul class="meal-list">
+                <li th:each="name : ${meal.names}" class="meal-list-item">
+                    <span id="'close-' + ${iterStat.index}" onclick="'closeItem(${iterStat.index})'" class="close-button" type="button">×</span>
+                    <span th:text="${name}"></span>
+                </li>
             </ul>
         </div>
     </div>
@@ -78,6 +95,37 @@
             text-align: center;
             height: 120px;
         }
+
+        .circle-form {
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        height:80%
+        }
+
+        .meal-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .meal-list-item {
+            margin: 5px 0;
+            background-color: #666;
+            color: white;
+            border: 2px
+            padding: 5px;
+            position: relative;
+        }
+        .close-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+        .close-button:hover {
+        color: #ff0000;
+    }
 
         h1 {
             margin: 0;
@@ -170,8 +218,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        line-height: 1;
-        vertical-align: middle;
+        line-height: 0.5;
         font-weight: bold;
         font-size: 30px;
         border-radius: 50%;
@@ -187,6 +234,9 @@
         border-radius: 50%;
         margin-right: 10px;
         position: relative;
+        }
+        .arrow-circle:hover{
+        background-color: #949391;
         }
 
         .arrow-circle::before {
@@ -209,8 +259,9 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        display: flex;
+        display: table;
         color: black;
+        align-self: center;
         }
         .meal {
             border: 2px solid #000;
@@ -239,15 +290,15 @@
             padding-top: 30px;
 
         }</style>
-<script type="text/javascript">
-    function updateCircle(button) {
-        var label = button.querySelector('.label').innerText;
-        var value = button.querySelector('.value').innerText;
-        $.post('/updateCircle', { label: label, value: value }, function(data) {
 
-            alert('Zaktualizowano okrąg:', label, value);
-        });
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function closeItem(index) {
+        var elementToRemove = document.getElementById('rectangle-' + index);
+        elementToRemove.parentNode.removeChild(elementToRemove);
     }
+    /*]]>*/
 </script>
 
 </body>

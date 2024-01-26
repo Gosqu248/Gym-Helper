@@ -16,5 +16,4 @@ public class Day {
     public int getValue() {
         return value;
     }
-
 }

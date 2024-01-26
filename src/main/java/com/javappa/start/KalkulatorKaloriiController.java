@@ -10,15 +10,17 @@ import java.util.*;
 
 @Controller
 public class KalkulatorKaloriiController {
-    private LocalDate currentdate;
+    private DateTimeFormatter formatterPl = DateTimeFormatter.ofPattern("EEEE", new Locale("pl"));
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private LocalDate currentDate = LocalDate.now();
+    //Calendar days section
+    private List<Day> circleContentsPrev = new ArrayList<>();
+    private List<Day> circleContentsPost = new ArrayList<>();
+    private Map<String,LocalDate> datesInCalendar = new HashMap<>();
     @GetMapping("/Kalkulator Kalorii")
     public String calculator(Model model) {
         model.addAttribute("logo", "Gym Helper");
         model.addAttribute("logo2", "Optimal Fitness Lifestyle");
-
-        currentdate = LocalDate.now();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String preparedDate = currentdate.format(dateFormatter);
 
         List<String> navLinks = new ArrayList<>();
         navLinks.add("/");
@@ -26,27 +28,17 @@ public class KalkulatorKaloriiController {
         navLinks.add("/Kalkulator Kalorii");
         navLinks.add("/Porady");
         model.addAttribute("navLinks", navLinks);
-        List<Day> circleContentsPost= Arrays.asList(
-                new Day("F", 6),
-                new Day("G", 7),
-                new Day("H", 8),
-                new Day("B", 9),
-                new Day("J", 10)
-        );
-        List<Day> circleContentsPrev = Arrays.asList(
-                new Day("N", 1),
-                new Day("AB", 2),
-                new Day("M", 3),
-                new Day("D", 4),
-                new Day("B", 5)
-        );
+        changeDates();
 
         model.addAttribute("circleContentsPrev", circleContentsPrev);
+        model.addAttribute("circleCurrentLabel", currentDate.format(formatterPl).substring(0, 1).toUpperCase());
+        model.addAttribute("circleCurrentValue", Integer.toString(currentDate.getDayOfMonth()));
         model.addAttribute("circleContentsPost", circleContentsPost);
 
         List<Meal> meals = Arrays.asList(
                 new Meal("Śniadanie", Arrays.asList("Nazwa 1", "Nazwa 2", "Nazwa 3")),
                 new Meal("Obiad", Arrays.asList("Nazwa A", "Nazwa B", "Nazwa C")),
+                new Meal("Podwieczorek", Arrays.asList("Nazwa X", "Nazwa Y", "Nazwa Z")),
                 new Meal("Kolacja", Arrays.asList("Nazwa X", "Nazwa Y", "Nazwa Z"))
         );
 
@@ -59,11 +51,34 @@ public class KalkulatorKaloriiController {
         return "calorie_calculator";
     }
     @PostMapping("/updateCircle")
-    public String updateCircle(@RequestParam String label, @RequestParam String value, Model model) {
-
-        model.addAttribute("circleCurrentLabel", label);
-        model.addAttribute("circleCurrentValue", value);
+    public String updateCircle(@RequestParam String label, @RequestParam String value) {
+        currentDate = datesInCalendar.get((label+value));
         return "redirect:/Kalkulator Kalorii";
+    }
+    @PostMapping("/scrollCircles")
+    public String scrollCirles(@RequestParam String direction) {
+
+        if (direction.equals("right")){
+            currentDate = currentDate.plusDays(11);
+        }else if(direction.equals("left")){
+            currentDate = currentDate.minusDays(11);
+        }
+        return "redirect:/Kalkulator Kalorii";
+    }
+    private void changeDates(){
+        circleContentsPrev.clear();
+        circleContentsPost.clear();
+        datesInCalendar.clear();
+        for (int i = 5; i >= 1; i--) {
+            LocalDate dateBefore = currentDate.minusDays(i);
+            datesInCalendar.put((dateBefore.format(formatterPl).substring(0, 1).toUpperCase() + Integer.toString(dateBefore.getDayOfMonth())), dateBefore);
+            circleContentsPrev.add(new Day(dateBefore.format(formatterPl).substring(0, 1).toUpperCase(),  dateBefore.getDayOfMonth()));
+        }
+        for (int i = 1; i <= 5; i++) {
+            LocalDate dateAfter = currentDate.plusDays(i);
+            datesInCalendar.put((dateAfter.format(formatterPl).substring(0, 1).toUpperCase() + Integer.toString(dateAfter.getDayOfMonth())), dateAfter);
+            circleContentsPost.add(new Day(dateAfter.format(formatterPl).substring(0, 1).toUpperCase(), dateAfter.getDayOfMonth()));
+        }
     }
 }
 
