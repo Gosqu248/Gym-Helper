@@ -17,6 +17,9 @@ public class KalkulatorKaloriiController {
     private List<Day> circleContentsPrev = new ArrayList<>();
     private List<Day> circleContentsPost = new ArrayList<>();
     private Map<String,LocalDate> datesInCalendar = new HashMap<>();
+    //Meals
+    private List<Meal> meals = new ArrayList<>();
+    private Boolean tmp = true;
     @GetMapping("/Kalkulator Kalorii")
     public String calculator(Model model) {
         model.addAttribute("logo", "Gym Helper");
@@ -35,13 +38,16 @@ public class KalkulatorKaloriiController {
         model.addAttribute("circleCurrentValue", Integer.toString(currentDate.getDayOfMonth()));
         model.addAttribute("circleContentsPost", circleContentsPost);
 
-        List<Meal> meals = Arrays.asList(
-                new Meal("Śniadanie", Arrays.asList("Nazwa 1", "Nazwa 2", "Nazwa 3")),
-                new Meal("Obiad", Arrays.asList("Nazwa A", "Nazwa B", "Nazwa C")),
-                new Meal("Podwieczorek", Arrays.asList("Nazwa X", "Nazwa Y", "Nazwa Z")),
-                new Meal("Kolacja", Arrays.asList("Nazwa X", "Nazwa Y", "Nazwa Z"))
-        );
+        if(tmp) {
+            meals.add(new Meal(0,"Śniadanie", new ArrayList<>()));
+            meals.add(new Meal(1,"Obiad", new ArrayList<>()));
 
+            meals.get(0).addNewProduct(new Product(1, "Jajko", 70, 1, 5, 6, 100));
+            meals.get(0).addNewProduct(new Product(2, "Chleb", 250, 50, 2, 5, 100));
+            meals.get(1).addNewProduct(new Product(3, "Stek", 200, 0, 10, 20, 150));
+            meals.get(1).addNewProduct(new Product(4, "Ryż", 150, 30, 1, 3, 100));
+            tmp = false;
+        }
         model.addAttribute("meals", meals);
 
         model.addAttribute("footerText", "CORPORATE FITNESS 🔸 NUTRITIONAL ADVICE 🔸 WEIGHT LOSS 🔸 MUSCLE TONE 🔸 CORE STRENGTH 🔸 POSTURE CORRECTION 🔸 CARDIO FITNESS");
@@ -63,6 +69,14 @@ public class KalkulatorKaloriiController {
         }else if(direction.equals("left")){
             currentDate = currentDate.minusDays(11);
         }
+        return "redirect:/Kalkulator Kalorii";
+    }
+    @PostMapping("/removeProduct")
+    private String removeProduct(@RequestParam String mealId, @RequestParam String productId){
+        System.out.println("Usuwam produkt o ID: " + productId+" "+mealId);
+        tmp = false;
+        meals.get(Integer.valueOf(mealId)).removeProductById(Integer.valueOf(productId));
+
         return "redirect:/Kalkulator Kalorii";
     }
     private void changeDates(){

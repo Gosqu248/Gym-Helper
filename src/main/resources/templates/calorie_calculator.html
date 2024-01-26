@@ -19,7 +19,6 @@
 
 <div id="space"> </div>
 <div class="content">
-    <div class="text"></div>
     <div class="outer-bar">
         <div class="circle-bar">
             <form class="circle-form" th:action="@{/scrollCircles}" method="post">
@@ -63,9 +62,17 @@
         <div th:each="meal : ${meals}" class="meal">
             <h3 th:text="${meal.name}"></h3>
             <ul class="meal-list">
-                <li th:each="name : ${meal.names}" class="meal-list-item">
-                    <span id="'close-' + ${iterStat.index}" onclick="'closeItem(${iterStat.index})'" class="close-button" type="button">×</span>
-                    <span th:text="${name}"></span>
+                <form th:each="product : ${meal.products}" class="meal-list-item" th:action="@{/removeProduct}" method="post">
+                        <input type="hidden" name="mealId" th:value="${meal.id}">
+                        <input type="hidden" name="productId" th:value="${product.id}">
+                        <button type="submit" class="close-button">×</button>
+                        <span th:text="${product.name}"></span>
+                        <span> | Kcal: <span th:text="${product.kcal}"></span></span>
+                        <span> | Carbs: <span th:text="${product.carbs}"></span></span>
+                        <span> | Fats: <span th:text="${product.fats}"></span></span>
+                        <span> | Proteins: <span th:text="${product.proteins}"></span></span>
+                        <span> | Weight: <span th:text="${product.weight}"></span></span>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -101,7 +108,6 @@
         justify-content: center;
         align-items: center;
         display: flex;
-        height:80%
         }
 
         .meal-list {
@@ -290,16 +296,6 @@
             padding-top: 30px;
 
         }</style>
-
-</script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    function closeItem(index) {
-        var elementToRemove = document.getElementById('rectangle-' + index);
-        elementToRemove.parentNode.removeChild(elementToRemove);
-    }
-    /*]]>*/
-</script>
 
 </body>
 </html>
