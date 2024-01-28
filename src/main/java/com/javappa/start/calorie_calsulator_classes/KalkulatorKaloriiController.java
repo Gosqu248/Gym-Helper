@@ -1,4 +1,4 @@
-package com.javappa.start;
+package com.javappa.start.calorie_calsulator_classes;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +48,16 @@ public class KalkulatorKaloriiController {
             meals.get(1).addNewProduct(new Product(4, "Ryż", 150, 30, 1, 3, 100));
             tmp = false;
         }
+        //Temporary overview testing
+        ArrayList<MacroOverview> dailies = new ArrayList<>();
+
+        dailies.add(new MacroOverview("Białko",10,100));
+        dailies.add(new MacroOverview("Węgle",70,600));
+        dailies.add(new MacroOverview("Tłuszcz",87,200));
+        dailies.add(new MacroOverview("Kcal",87,200));
+
         model.addAttribute("meals", meals);
+        model.addAttribute("dailies", dailies);
 
         model.addAttribute("footerText", "CORPORATE FITNESS 🔸 NUTRITIONAL ADVICE 🔸 WEIGHT LOSS 🔸 MUSCLE TONE 🔸 CORE STRENGTH 🔸 POSTURE CORRECTION 🔸 CARDIO FITNESS");
 
@@ -77,6 +86,15 @@ public class KalkulatorKaloriiController {
         tmp = false;
         meals.get(Integer.valueOf(mealId)).removeProductById(Integer.valueOf(productId));
 
+        return "redirect:/Kalkulator Kalorii";
+    }
+    @PostMapping("/addProduct")
+    private String addProduct (@RequestParam String mealId){
+        System.out.println("Usuwam produkt o ID: " +" "+mealId);
+        return "redirect:/Kalkulator Kalorii";
+    }
+    @PostMapping("/showDetails")
+    private String showDetails (@RequestParam String name){
         return "redirect:/Kalkulator Kalorii";
     }
     private void changeDates(){

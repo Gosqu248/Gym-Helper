@@ -1,4 +1,4 @@
-package com.javappa.start;
+package com.javappa.start.calorie_calsulator_classes;
 
 public class Product {
     private String name;

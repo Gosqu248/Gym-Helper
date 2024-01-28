@@ -1,16 +1,16 @@
-package com.javappa.start;
+package com.javappa.start.calorie_calsulator_classes;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class Meal {
     private String name;
-    private List<Product> products;
-    private int id;
     private int carbs;
     private int fats;
     private int proteins;
     private int kcal;
+    private List<Product> products;
+    private int id;
 
     public Meal(int id, String name, List<Product> products) {
         this.name = name;

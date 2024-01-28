@@ -60,7 +60,14 @@
     </div>
     <div class="outer-bar-row">
         <div th:each="meal : ${meals}" class="meal">
-            <h3 th:text="${meal.name}"></h3>
+            <span class="row-layout">
+                <h3 th:text="${meal.name}"></h3>
+                <form th:action="@{/addProduct}" method="post">
+                    <input type="hidden" name="mealId" th:value="${meal.id}">
+                    <button type="submit" class="button_plus"></button>
+                </form>
+            </span>
+            <p th:text="'Kcal: ' + ${meal.kcal} +' W: ' + ${meal.carbs} + ' T: ' + ${meal.fats} + ' B: ' + ${meal.proteins}"></p>
             <ul class="meal-list">
                 <form th:each="product : ${meal.products}" class="meal-list-item" th:action="@{/removeProduct}" method="post">
                         <input type="hidden" name="mealId" th:value="${meal.id}">
@@ -76,6 +83,14 @@
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="overview-bar">
+        <form th:each="daily : ${dailies}" class="dailies-list"  th:action="@{/showDetails}" method="post">
+            <button type="submit" style="background-color: #4a4946;">
+                <span th:text="${daily.name}"></span><br>
+                <span th:text="${daily.amount}+'/'+${daily.demand}"></span>
+            </button>
+        </form>
     </div>
 </div>
 
@@ -96,11 +111,57 @@
             color: #f0d841;
             background-color: #222222;
         }
+        .button_plus {
+          position: absolute;
+          float: right;
+          width: 35px;
+          height: 35px;
+          background: #f0d841;
+          cursor: pointer;
+          border: 2px solid black;
+        }
+
+        .button_plus:after {
+          content: '';
+          position: absolute;
+          transform: translate(-50%, -50%);
+          height: 4px;
+          width: 50%;
+          background: black;
+          top: 50%;
+          left: 50%;
+        }
+        .button_plus:before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: black;
+          height: 50%;
+          width: 4px;
+        }
+        .button_plus:hover:before,
+        .button_plus:hover:after {
+          background: #fff;
+          transition: 0.2s;
+        }
+        .button_plus:hover {
+          background-color: #f0d841;
+          transition: 0.2s;
+        }
 
         header {
             background-color: #f0d841;
             text-align: center;
             height: 120px;
+        }
+
+        .row-layout {
+        align-items: center;
+        display: flex;
+        color: black;
+        height: auto;
         }
 
         .circle-form {
@@ -131,7 +192,7 @@
         }
         .close-button:hover {
         color: #ff0000;
-    }
+        }
 
         h1 {
             margin: 0;
@@ -145,6 +206,9 @@
             color: #222222;
             font-family: 'Courier New', Courier, monospace;
             margin-top: 5px;
+        }
+        h3 {
+        line-height: 0.001
         }
 
         nav {
@@ -202,6 +266,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
+        position: relative;
         line-height: 1;
         font-weight: bold;
         font-size: 30px;
@@ -261,6 +326,7 @@
         .arrow-circle.reversed::before {
         transform: translate(-50%, -50%) rotate(180deg);
         }
+
         .outer-bar-row {
         justify-content: center;
         align-items: center;
@@ -276,6 +342,23 @@
             width:60%;
             background-color: #4a4946;
             display: block;
+        }
+
+        .overview-bar{
+            border: 2px solid #000;
+            justify-content: left;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px auto;
+            width:40%;
+            background-color: #4a4946;
+        }
+        .dailies-list{
+            align-items: center;
+            font-size: 20px;
+            display: table;
+            margin-right: 5%;
         }
 
         footer {
@@ -295,7 +378,8 @@
             font-size: 30px;
             padding-top: 30px;
 
-        }</style>
+        }
+</style>
 
 </body>
 </html>
