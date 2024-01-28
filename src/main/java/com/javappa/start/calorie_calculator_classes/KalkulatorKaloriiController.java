@@ -1,4 +1,4 @@
-package com.javappa.start.calorie_calsulator_classes;
+package com.javappa.start.calorie_calculator_classes;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +20,9 @@ public class KalkulatorKaloriiController {
     //Meals
     private List<Meal> meals = new ArrayList<>();
     private Boolean tmp = true;
+
+
+
     @GetMapping("/Kalkulator Kalorii")
     public String calculator(Model model) {
         model.addAttribute("logo", "Gym Helper");
@@ -42,10 +45,10 @@ public class KalkulatorKaloriiController {
             meals.add(new Meal(0,"Śniadanie", new ArrayList<>()));
             meals.add(new Meal(1,"Obiad", new ArrayList<>()));
 
-            meals.get(0).addNewProduct(new Product(1, "Jajko", 70, 1, 5, 6, 100));
-            meals.get(0).addNewProduct(new Product(2, "Chleb", 250, 50, 2, 5, 100));
-            meals.get(1).addNewProduct(new Product(3, "Stek", 200, 0, 10, 20, 150));
-            meals.get(1).addNewProduct(new Product(4, "Ryż", 150, 30, 1, 3, 100));
+            meals.get(0).addNewProduct(new Product("Jajko", 70, 1, 5, 6, 100));
+            meals.get(0).addNewProduct(new Product("Chleb", 250, 50, 2, 5, 100));
+            meals.get(1).addNewProduct(new Product("Stek", 200, 0, 10, 20, 150));
+            meals.get(1).addNewProduct(new Product("Ryż", 150, 30, 1, 3, 100));
             tmp = false;
         }
         //Temporary overview testing

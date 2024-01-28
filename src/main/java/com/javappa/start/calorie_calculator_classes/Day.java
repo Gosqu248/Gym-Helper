@@ -1,4 +1,4 @@
-package com.javappa.start.calorie_calsulator_classes;
+package com.javappa.start.calorie_calculator_classes;
 
 public class Day {
     private String label;
