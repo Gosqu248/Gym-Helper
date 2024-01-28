@@ -1,0 +1,385 @@
+<html lang="en">
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calories calculator</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</head>
+<body>
+<header>
+    <h1 th:text="${logo}"></h1>
+
+    <h2 th:text="${logo2}"></h2>
+</header>
+
+<nav>
+    <a class="nav-link" th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
+</nav>
+
+<div id="space"> </div>
+<div class="content">
+    <div class="outer-bar">
+        <div class="circle-bar">
+            <form class="circle-form" th:action="@{/scrollCircles}" method="post">
+                <input type="hidden" name="direction" th:value="left" />
+                <button type="submit" class="arrow-circle"/>
+            </form>
+            <form class="circle-form" th:each="circle : ${circleContentsPrev}" th:action="@{/updateCircle}" method="post">
+                <input type="hidden" name="label" th:value="${circle.label}" />
+                <input type="hidden" name="value" th:value="${circle.value}" />
+                <button type="submit" class="circle">
+                    <div>
+                        <span class="label" th:text="${circle.label}"></span><br>
+                        <span class="value" th:text="${circle.value}"></span>
+                    </div>
+                </button>
+            </form>
+
+            <button id="circleCurrent" class="circleCurrent">
+                <span th:text="${circleCurrentLabel}"></span><br>
+                <span th:text="${circleCurrentValue}"></span>
+            </button>
+
+            <form class="circle-form" th:each="circle : ${circleContentsPost}" th:action="@{/updateCircle}" method="post">
+                <input type="hidden" name="label" th:value="${circle.label}" />
+                <input type="hidden" name="value" th:value="${circle.value}" />
+                <button type="submit" class="circle">
+                    <div>
+                        <span class="label" th:text="${circle.label}"></span><br>
+                        <span class="value" th:text="${circle.value}"></span>
+                    </div>
+                </button>
+            </form>
+
+            <form class="circle-form" th:action="@{/scrollCircles}" method="post">
+                <input type="hidden" name="direction" th:value="right" />
+                <button type="submit" class="arrow-circle reversed"/>
+            </form>
+        </div>
+    </div>
+    <div class="outer-bar-row">
+        <div th:each="meal : ${meals}" class="meal">
+            <span class="row-layout">
+                <h3 th:text="${meal.name}"></h3>
+                <form th:action="@{/addProduct}" method="post">
+                    <input type="hidden" name="mealId" th:value="${meal.id}">
+                    <button type="submit" class="button_plus"></button>
+                </form>
+            </span>
+            <p th:text="'Kcal: ' + ${meal.kcal} +' W: ' + ${meal.carbs} + ' T: ' + ${meal.fats} + ' B: ' + ${meal.proteins}"></p>
+            <ul class="meal-list">
+                <form th:each="product : ${meal.products}" class="meal-list-item" th:action="@{/removeProduct}" method="post">
+                        <input type="hidden" name="mealId" th:value="${meal.id}">
+                        <input type="hidden" name="productId" th:value="${product.id}">
+                        <button type="submit" class="close-button">×</button>
+                        <span th:text="${product.name}"></span>
+                        <span> | Kcal: <span th:text="${product.kcal}"></span></span>
+                        <span> | Carbs: <span th:text="${product.carbs}"></span></span>
+                        <span> | Fats: <span th:text="${product.fats}"></span></span>
+                        <span> | Proteins: <span th:text="${product.proteins}"></span></span>
+                        <span> | Weight: <span th:text="${product.weight}"></span></span>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="overview-bar">
+        <form th:each="daily : ${dailies}" class="dailies-list"  th:action="@{/showDetails}" method="post">
+            <button type="submit" style="background-color: #4a4946;">
+                <span th:text="${daily.name}"></span><br>
+                <span th:text="${daily.amount}+'/'+${daily.demand}"></span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p1 th:text="${footerText}"></p1>
+</footer>
+
+<div id="end">
+    <p1 th:text="${endText}"></p1>
+</div>
+<style>
+        body {
+            justify-content: center;
+            height: auto;
+            width: 100%;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 40px;
+            color: #f0d841;
+            background-color: #222222;
+        }
+        .button_plus {
+          position: absolute;
+          float: right;
+          width: 35px;
+          height: 35px;
+          background: #f0d841;
+          cursor: pointer;
+          border: 2px solid black;
+        }
+
+        .button_plus:after {
+          content: '';
+          position: absolute;
+          transform: translate(-50%, -50%);
+          height: 4px;
+          width: 50%;
+          background: black;
+          top: 50%;
+          left: 50%;
+        }
+        .button_plus:before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: black;
+          height: 50%;
+          width: 4px;
+        }
+        .button_plus:hover:before,
+        .button_plus:hover:after {
+          background: #fff;
+          transition: 0.2s;
+        }
+        .button_plus:hover {
+          background-color: #f0d841;
+          transition: 0.2s;
+        }
+
+        header {
+            background-color: #f0d841;
+            text-align: center;
+            height: 120px;
+        }
+
+        .row-layout {
+        align-items: center;
+        display: flex;
+        color: black;
+        height: auto;
+        }
+
+        .circle-form {
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        }
+
+        .meal-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .meal-list-item {
+            margin: 5px 0;
+            background-color: #666;
+            color: white;
+            border: 2px
+            padding: 5px;
+            position: relative;
+        }
+        .close-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+        .close-button:hover {
+        color: #ff0000;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 74px;
+            color: white;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #222222;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 5px;
+        }
+        h3 {
+        line-height: 0.001
+        }
+
+        nav {
+            text-align: center;
+            background-color: #222222;
+            padding: 5px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 60px;
+            font-size: 30px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color:#f0d841;
+        }
+
+        #space {
+            height: 7px;
+            background-color: #f0d841;
+        }
+        .content{
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        color: black;
+        margin: 0;
+        }
+
+        .outer-bar {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        color: black;
+        margin: 0;
+        }
+
+        .circle-bar {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        color: black;
+        background-color: #4a4946;
+        border-radius: 25px;
+        }
+
+        .circle {
+        width: 90px;
+        height: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        line-height: 1;
+        font-weight: bold;
+        font-size: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+        background-color: #757472;
+        border: 3px solid black;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        }
+
+        .circle:hover {
+        background-color: #b3b2af;
+        }
+        .circleCurrent {
+        width: 120px;
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 0.5;
+        font-weight: bold;
+        font-size: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+        background-color: #b3b2af;
+        border: 5px solid
+        }
+
+        .arrow-circle {
+        background-color: #b3b2af;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        position: relative;
+        }
+        .arrow-circle:hover{
+        background-color: #949391;
+        }
+
+        .arrow-circle::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 5px 10px 5px 0;
+        border-color: transparent rgba(255, 255, 255, 0.9) transparent transparent;
+        }
+
+        .arrow-circle.reversed::before {
+        transform: translate(-50%, -50%) rotate(180deg);
+        }
+
+        .outer-bar-row {
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        display: table;
+        color: black;
+        align-self: center;
+        }
+        .meal {
+            border: 2px solid #000;
+            padding: 10px;
+            margin: 10px auto;
+            width:60%;
+            background-color: #4a4946;
+            display: block;
+        }
+
+        .overview-bar{
+            border: 2px solid #000;
+            justify-content: left;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px auto;
+            width:40%;
+            background-color: #4a4946;
+        }
+        .dailies-list{
+            align-items: center;
+            font-size: 20px;
+            display: table;
+            margin-right: 5%;
+        }
+
+        footer {
+            background-color: #f0d841;
+            text-align: center;
+            padding: 5px;
+            color: black;
+            font-size: 19px;
+        }
+
+        #end {
+            background-color: #222222;
+            color: white;
+            text-align: center;
+            height: 60px;
+            width: auto;
+            font-size: 30px;
+            padding-top: 30px;
+
+        }
+</style>
+
+</body>
+</html>
