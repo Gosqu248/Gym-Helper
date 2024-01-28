@@ -93,8 +93,7 @@ public class KalkulatorKaloriiController {
     }
     @PostMapping("/addProduct")
     private String addProduct (@RequestParam String mealId){
-        System.out.println("Usuwam produkt o ID: " +" "+mealId);
-        return "redirect:/Kalkulator Kalorii";
+        return "redirect:/Add product";
     }
     @PostMapping("/showDetails")
     private String showDetails (@RequestParam String name){
