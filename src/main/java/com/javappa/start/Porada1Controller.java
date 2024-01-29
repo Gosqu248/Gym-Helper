@@ -4,12 +4,39 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Controller
 public class Porada1Controller {
+
+    private static final String url = "jdbc:postgresql://195.150.230.208:5432/2023_urban_grzegorz";
+    private static final String username = "2023_urban_grzegorz";
+    private static final String password = "35240";
+
+    public List<PoradaTreningowa> retrievePoradyFromDatabase() {
+        List<PoradaTreningowa> porady = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "SELECT * FROM aplikacja.porada_treningowa";
+            try (PreparedStatement statement = connection.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id_porady");
+                    String tytul = resultSet.getString("tytul");
+                    String kategoria = resultSet.getString("kategoria");
+                    String tresc = resultSet.getString("tresc");
+                    PoradaTreningowa porada = new PoradaTreningowa(id, tytul, kategoria, tresc);
+                    porady.add(porada);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return porady;
+    }
+
 
     @GetMapping("/Porada1")
     public String porada1(Model model) {
@@ -19,11 +46,17 @@ public class Porada1Controller {
         List<String> navLinks = Arrays.asList("/", "/Plany Treningowe", "/Kalkulator Kalorii", "/Porady");
         model.addAttribute("navLinks", navLinks);
 
-        model.addAttribute("name", "Jak zacząć z siłownią?");
-        model.addAttribute("text1", "Zanim wybierzesz się na siłownię, zastanów się, co dokładnie chcesz osiągnąć dzięki treningom. Czy szukasz sposobu, by poprawić swoje samopoczucie i ogólny stan zdrowia? Zależy Ci na lepszej kondycji? A może masz konkretne plany wobec swojej sylwetki? Ważne, by cel, który sobie postawisz, był realny – dostosowany do Twoich możliwości. Jeśli założysz, że chcesz schudnąć kilkanaście kilogramów lub przygotować się do maratonu w ciągu miesiąca, możesz mocno się rozczarować.");
+        List<PoradaTreningowa> porady = retrievePoradyFromDatabase();
 
-        model.addAttribute("name2", "Trening na siłowni dla początkujących – o czym jeszcze pamiętać?");
-        model.addAttribute("text2", "Przed wizytą na siłowni zadbaj o odpowiednie akcesoria. Najważniejsze są komfortowe, oddychające ubrania sportowe, w których bez problemu wykonasz różne ćwiczenia. Obuwie powinno być stabilne, przewiewne i przede wszystkim wygodne – dzięki temu łatwiej będzie Ci zachować równowagę, unikniesz odcisków, obtarć, a Twoje stopy nie będą nadmiernie się pocić. Pamiętaj też, by zabrać ze sobą ręcznik i wodę.\n");
+
+        if (!porady.isEmpty()) {
+            model.addAttribute("name", porady.getFirst().getTytul());
+        }
+
+        model.addAttribute("text1", porady.getFirst().getTresc());
+
+        model.addAttribute("name2", porady.get(1).getTytul());
+        model.addAttribute("text2", porady.get(1).getTresc());
 
         model.addAttribute("name3", "Podsumowanie");
         model.addAttribute("text3", "Początki na siłowni nie należą do łatwych. Aby nie zniechęcić się do aktywności fizycznej, warto pamiętać o kilku podstawowych zasadach:");
@@ -44,8 +77,15 @@ public class Porada1Controller {
 
         model.addAttribute("endText", "@ 2035 by GymHelper");
 
+        retrievePoradyFromDatabase();
+
+
+
         return "porada1";
     }
+
+
+
 
 }
 
