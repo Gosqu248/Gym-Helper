@@ -3,7 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+</head>
+<body>
+<header>
+  <h1 th:text="${logo}"></h1>
+
+  <h2 th:text="${logo2}"></h2>
+</header>
+
+<nav>
+  <a class="nav-link" th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
+</nav>
+
+<div id="space"> </div>
+<div class="content">
+  <form th:each="product : ${products}" class="meal-list-item" th:action="@{/asdasfgas}" method="post">
+    <input type="hidden" name="productId" th:value="${product.id}">
+    <button type="submit" class="close-button">×</button>
+    <span th:text="${product.name}"></span>
+    <span> | Kcal: <span th:text="${product.kcal}"></span></span>
+    <span> | Carbs: <span th:text="${product.carbs}"></span></span>
+    <span> | Fats: <span th:text="${product.fats}"></span></span>
+    <span> | Proteins: <span th:text="${product.proteins}"></span></span>
+    <span> | Weight: <span th:text="${product.weight}"></span></span>
+  </form>
+</div>
+
+<footer>
+  <p1 th:text="${footerText}"></p1>
+</footer>
+
+<div id="end">
+  <p1 th:text="${endText}"></p1>
+</div>
+</body>
   <style>
+  .meal-list-item {
+            margin: 5px 0;
+            background-color: #666;
+            color: white;
+            border: 2px
+            padding: 5px;
+            position: relative;
+        }
+  .close-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+        .close-button:hover {
+        color: #ff0000;
+        }
         body {
             justify-content: center;
             height: auto;
@@ -57,6 +108,13 @@
             background-color: #f0d841;
         }
 
+        .content{
+          justify-content: center;
+          align-items: center;
+          height: auto;
+          color: black;
+          margin: 0;
+        }
 
         footer {
             background-color: #f0d841;
@@ -76,26 +134,4 @@
             padding-top: 30px;
 
         }</style>
-</head>
-<body>
-<header>
-  <h1 th:text="${logo}"></h1>
-
-  <h2 th:text="${logo2}"></h2>
-</header>
-
-<nav>
-  <a class="nav-link" th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
-</nav>
-
-<div id="space"> </div>
-
-<footer>
-  <p1 th:text="${footerText}"></p1>
-</footer>
-
-<div id="end">
-  <p1 th:text="${endText}"></p1>
-</div>
-</body>
 </html>

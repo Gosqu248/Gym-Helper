@@ -9,7 +9,6 @@ import java.util.List;
 
 @Controller
 public class AddProductController {
-
     @GetMapping("/Add product")
     public String addProduct(Model model){
         model.addAttribute("logo", "Gym Helper");
