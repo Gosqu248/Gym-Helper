@@ -4,12 +4,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Controller
 public class HomeController {
+
+    public static final String url = "jdbc:postgresql://195.150.230.208:5432/2023_urban_grzegorz";
+    public static final String username = "2023_urban_grzegorz";
+    public static final String password = "35240";
+
+    public List<PoradaTreningowa> retrievePoradyFromDatabase() {
+        List<PoradaTreningowa> porady = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "SELECT * FROM aplikacja.porada_treningowa";
+            try (PreparedStatement statement = connection.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id_porady");
+                    String tytul = resultSet.getString("tytul");
+                    String kategoria = resultSet.getString("kategoria");
+                    String tresc = resultSet.getString("tresc");
+                    PoradaTreningowa porada = new PoradaTreningowa(id, tytul, kategoria, tresc);
+                    porady.add(porada);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return porady;
+    }
 
     @GetMapping
     public String hello(Model model) {
