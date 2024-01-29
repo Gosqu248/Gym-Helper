@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-    private int id;
+    private long id;
     private String name;
     private int kcal;
     private int carbs;

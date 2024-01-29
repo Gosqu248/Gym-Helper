@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-public class Porada1Controller extends HomeController {
-
+public class Porada1Controller extends DBFetch{
     @GetMapping("/Porada1")
     public String porada1(Model model) {
         model.addAttribute("logo", "Gym Helper");
@@ -19,7 +18,6 @@ public class Porada1Controller extends HomeController {
         model.addAttribute("navLinks", navLinks);
 
         List<PoradaTreningowa> porady = retrievePoradyFromDatabase();
-
 
         if (!porady.isEmpty()) {
             model.addAttribute("name", porady.get(0).getTytul());
@@ -48,10 +46,6 @@ public class Porada1Controller extends HomeController {
         model.addAttribute("footerText", "CORPORATE FITNESS 🔸 NUTRITIONAL ADVICE 🔸 WEIGHT LOSS 🔸 MUSCLE TONE 🔸 CORE STRENGTH 🔸 POSTURE CORRECTION 🔸 CARDIO FITNESS");
 
         model.addAttribute("endText", "@ 2035 by GymHelper");
-
-        retrievePoradyFromDatabase();
-
-
 
         return "porada1";
     }

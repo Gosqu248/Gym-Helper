@@ -93,7 +93,7 @@ public class KalkulatorKaloriiController {
     }
     @PostMapping("/addProduct")
     private String addProduct (@RequestParam String mealId){
-        return "/Add product";
+        return "redirect:/Add product";
     }
     @PostMapping("/showDetails")
     private String showDetails (@RequestParam String name){
