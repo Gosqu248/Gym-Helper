@@ -96,4 +96,10 @@ public class Meal {
                 ", id=" + id +
                 '}';
     }
+    public Boolean isEmpty(){
+        if (products.isEmpty()){
+            return true;
+        }
+        return false;
+    }
 }

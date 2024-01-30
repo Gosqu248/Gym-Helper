@@ -22,8 +22,11 @@ public class KalkulatorKaloriiController extends DBFetch {
     private Map<String,LocalDate> datesInCalendar = new HashMap<>();
     //Meals
     private List<Meal> meals = new ArrayList<>();
+    //Controller service
     private Boolean tmp = true;
     private long chosenMealId;
+    //User settings
+    private int amountOfMeals = 5;
     private long userId =1;
     @GetMapping("/Kalkulator Kalorii")
     public String calculator(Model model) {
@@ -35,7 +38,6 @@ public class KalkulatorKaloriiController extends DBFetch {
             meals = retrieveMealsContent(currentDate, userId);
             tmp = false;
         }
-
 
         List<String> navLinks = new ArrayList<>();
         navLinks.add("/");
@@ -93,6 +95,9 @@ public class KalkulatorKaloriiController extends DBFetch {
             if (meal.getId() == mealId) {
                 meal.removeProductById(productId);
                 removeProductFromMeal(mealId,productId);
+                if(meal.isEmpty()){
+                    removeEmptyMeal(mealId);
+                }
                 System.out.println("Usuwam produkt o ID: " + productId+" "+mealId);
                 break;
             }
@@ -100,8 +105,8 @@ public class KalkulatorKaloriiController extends DBFetch {
         return "redirect:/Kalkulator Kalorii";
     }
     @PostMapping("/addProduct")
-    private String addProduct (@RequestParam String mealId, Model model){
-        chosenMealId = Long.parseLong(mealId);
+    private String addProduct (@RequestParam long mealId, Model model){
+        chosenMealId = mealId;
         return "redirect:/Add product";
     }
     @PostMapping("/configureProduct")
@@ -119,6 +124,9 @@ public class KalkulatorKaloriiController extends DBFetch {
         while (iterator.hasNext()) {
             Meal meal = iterator.next();
             if (meal.getId() == chosenMealId) {
+                if(meal.isEmpty()){
+                    addNewMeal(userId, meal.getId(), currentDate, meal.getName());
+                }
                 meal.addNewProduct(product);
                 saveProductInMealToDatabase(chosenMealId, productId, weight);
                 System.out.println("Added: " + product.getName());

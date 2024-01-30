@@ -154,6 +154,52 @@ public class DBFetch {
 
         return meals;
     }
+    public void addNewMeal(long mealId, long userId, LocalDate date, String name){
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "INSERT INTO aplikacja.odzywianie(id_uzytkownika, id_posilku, data, wykonany) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setLong(1, userId);
+                statement.setLong(2, mealId);
+                statement.setDate(3, java.sql.Date.valueOf(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+                statement.setBoolean(4, true);
+                statement.executeUpdate();
+            }
+            query = "INSERT INTO aplikacja.posilek(id_posilku, nazwa_posilku) VALUES (?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setLong(1, mealId);
+                statement.setString(2, name);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void removeEmptyMeal(long mealId){
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "DELETE FROM aplikacja.odzywianie WHERE id_posilku = ?;";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setLong(1, mealId);
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Rekord został usunięty.");
+                } else {
+                    System.out.println("Nie znaleziono rekordu o podanym ID.");
+                }
+            }
+            query = "DELETE FROM aplikacja.posilek WHERE id_posilku = ?;";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setLong(1, mealId);
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Rekord został usunięty.");
+                } else {
+                    System.out.println("Nie znaleziono rekordu o podanym ID.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void removeProductFromMeal(long mealId, long productId){
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String query = "DELETE FROM aplikacja.produkt_w_posilku WHERE id_posilku = ? AND id_produktu = ?;";
@@ -170,5 +216,25 @@ public class DBFetch {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    private static long generateUniqueId() {
+        return Long.valueOf(UUID.randomUUID().toString());
+    }
+    private static boolean isUniqueIdExists(long uniqueId) {
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "SELECT COUNT(*) FROM aplikacja.odzywianie WHERE id_posilku = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setLong(1, uniqueId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int count = resultSet.getInt(1);
+                        return count > 0;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
