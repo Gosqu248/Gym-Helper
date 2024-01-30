@@ -35,7 +35,7 @@ public class KalkulatorKaloriiController extends DBFetch {
 
         if(tmp) {
             changeDates();
-            meals = retrieveMealsContent(currentDate, userId);
+            meals = retrieveMealsContent(currentDate, userId, amountOfMeals);
             tmp = false;
         }
 
@@ -72,7 +72,7 @@ public class KalkulatorKaloriiController extends DBFetch {
     public String updateCircle(@RequestParam String label, @RequestParam String value) {
         currentDate = datesInCalendar.get((label+value));
         changeDates();
-        meals = retrieveMealsContent(currentDate, userId);
+        meals = retrieveMealsContent(currentDate, userId,amountOfMeals);
         return "redirect:/Kalkulator Kalorii";
     }
     @PostMapping("/scrollCircles")
@@ -84,7 +84,7 @@ public class KalkulatorKaloriiController extends DBFetch {
             currentDate = currentDate.minusDays(11);
         }
         changeDates();
-        meals = retrieveMealsContent(currentDate, userId);
+        meals = retrieveMealsContent(currentDate, userId, amountOfMeals);
         return "redirect:/Kalkulator Kalorii";
     }
     @PostMapping("/removeProduct")
@@ -117,8 +117,6 @@ public class KalkulatorKaloriiController extends DBFetch {
 
         Product product = new Product(productId,name,kcal,carbs,fats,proteins,weight);
         product.adjustToWeight();
-        System.out.println(product.toString());
-        System.out.println(chosenMealId);
 
         Iterator<Meal> iterator = meals.iterator();
         while (iterator.hasNext()) {

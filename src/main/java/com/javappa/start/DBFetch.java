@@ -98,65 +98,77 @@ public class DBFetch {
         return mealIds;
     }
 
-    public List<Meal> retrieveMealsContent(LocalDate date, long userId) {
+    public List<Meal> retrieveMealsContent(LocalDate date, long userId, int amount) {
         List<Long> mealIds = retrieveMealsByDay(date, userId);
         List<Meal> meals = new ArrayList<>();
-        if (mealIds.isEmpty()) {
-            return meals;
-        }
+            if (!mealIds.isEmpty()) {
+                try (Connection connection = DriverManager.getConnection(url, username, password)) {
+                    String placeholders = String.join(",", Collections.nCopies(mealIds.size(), "?"));
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            String placeholders = String.join(",", Collections.nCopies(mealIds.size(), "?"));
+                    String query = "SELECT * FROM aplikacja.posilek WHERE id_posilku IN (" + placeholders + ");";
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        for (int i = 0; i < mealIds.size(); i++) {
+                            statement.setLong(i + 1, mealIds.get(i));
+                        }
 
-            String query = "SELECT * FROM aplikacja.posilek WHERE id_posilku IN (" + placeholders + ");";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                for (int i = 0; i < mealIds.size(); i++) {
-                    statement.setLong(i + 1, mealIds.get(i));
-                }
-
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        long id = resultSet.getLong("id_posilku");
-                        String name = resultSet.getString("nazwa_posilku");
-                        Meal meal = new Meal(id, name);
-                        meals.add(meal);
-                    }
-                }
-            }
-            Iterator<Meal> iterator = meals.iterator();
-            query = "SELECT * FROM aplikacja.produkt_w_posilku p " +
-                    "JOIN aplikacja.produkt_spozywczy ON p.id_produktu = produkt_spozywczy.id_produktu " +
-                    "WHERE p.id_posilku = ?;";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                while (iterator.hasNext()) {
-                    Meal meal = iterator.next();
-                    statement.setLong(1, meal.getId());
-                    try (ResultSet resultSet = statement.executeQuery()) {
-                        while (resultSet.next()) {
-                            String name = resultSet.getString("nazwa_produktu");
-                            long id = resultSet.getInt("id_produktu");
-                            int kcal = resultSet.getInt("kalorie");
-                            int carbs = resultSet.getInt("weglowodany");
-                            int fats = resultSet.getInt("tluszcze");
-                            int proteins = resultSet.getInt("bialko");
-                            int weight = resultSet.getInt("waga_produktu");
-                            Product tmp = new Product(id, name, kcal, carbs, fats, proteins, weight);
-                            tmp.adjustToWeight();
-                            meal.addNewProduct(tmp);
+                        try (ResultSet resultSet = statement.executeQuery()) {
+                            while (resultSet.next()) {
+                                long id = resultSet.getLong("id_posilku");
+                                String name = resultSet.getString("nazwa_posilku");
+                                Meal meal = new Meal(id, name);
+                                meals.add(meal);
+                            }
                         }
                     }
+                    Iterator<Meal> iterator = meals.iterator();
+                    query = "SELECT * FROM aplikacja.produkt_w_posilku p " +
+                            "JOIN aplikacja.produkt_spozywczy ON p.id_produktu = produkt_spozywczy.id_produktu " +
+                            "WHERE p.id_posilku = ?;";
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        while (iterator.hasNext()) {
+                            Meal meal = iterator.next();
+                            statement.setLong(1, meal.getId());
+                            try (ResultSet resultSet = statement.executeQuery()) {
+                                while (resultSet.next()) {
+                                    String name = resultSet.getString("nazwa_produktu");
+                                    long id = resultSet.getInt("id_produktu");
+                                    int kcal = resultSet.getInt("kalorie");
+                                    int carbs = resultSet.getInt("weglowodany");
+                                    int fats = resultSet.getInt("tluszcze");
+                                    int proteins = resultSet.getInt("bialko");
+                                    int weight = resultSet.getInt("waga_produktu");
+                                    Product tmp = new Product(id, name, kcal, carbs, fats, proteins, weight);
+                                    tmp.adjustToWeight();
+                                    meal.addNewProduct(tmp);
+                                }
+                            }
+                        }
+
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while (meals.size()<amount){
+            List<String> listaPosilkow = Arrays.asList("Śniadanie", "Drugie śniadanie", "Obiad", "Podwieczorek", "Kolacja");
+            long newId = generateUniqueIdAsLong();
+            System.out.println("new id: "+newId);
+            while (!isUniqueIdExists(newId)) {
+                newId = generateUniqueIdAsLong();
+            }
+            meals.add(new Meal(newId,listaPosilkow.get(meals.size()%5)));
         }
-
         return meals;
     }
-    public void addNewMeal(long mealId, long userId, LocalDate date, String name){
+    public void addNewMeal(long userId, long mealId, LocalDate date, String name){
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            String query = "INSERT INTO aplikacja.odzywianie(id_uzytkownika, id_posilku, data, wykonany) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO aplikacja.posilek(id_posilku, nazwa_posilku) VALUES (?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setLong(1, mealId);
+                statement.setString(2, name);
+                statement.executeUpdate();
+            }
+            query = "INSERT INTO aplikacja.odzywianie(id_uzytkownika, id_posilku, data, wykonany) VALUES (?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setLong(1, userId);
                 statement.setLong(2, mealId);
@@ -164,12 +176,7 @@ public class DBFetch {
                 statement.setBoolean(4, true);
                 statement.executeUpdate();
             }
-            query = "INSERT INTO aplikacja.posilek(id_posilku, nazwa_posilku) VALUES (?, ?)";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setLong(1, mealId);
-                statement.setString(2, name);
-                statement.executeUpdate();
-            }
+            System.out.println("added new meal");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -217,10 +224,15 @@ public class DBFetch {
             e.printStackTrace();
         }
     }
-    private static long generateUniqueId() {
-        return Long.valueOf(UUID.randomUUID().toString());
+    //Id generating
+    public static long generateUniqueIdAsLong() {
+        UUID uuid = UUID.randomUUID();
+        long mostSignificantBits = uuid.getMostSignificantBits();
+        long leastSignificantBits = uuid.getLeastSignificantBits();
+
+        return mostSignificantBits ^ leastSignificantBits;
     }
-    private static boolean isUniqueIdExists(long uniqueId) {
+    public static boolean isUniqueIdExists(long uniqueId) {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String query = "SELECT COUNT(*) FROM aplikacja.odzywianie WHERE id_posilku = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -228,7 +240,7 @@ public class DBFetch {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         int count = resultSet.getInt(1);
-                        return count > 0;
+                        return count == 0;
                     }
                 }
             }

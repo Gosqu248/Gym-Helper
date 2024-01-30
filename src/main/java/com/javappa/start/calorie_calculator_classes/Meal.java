@@ -97,9 +97,6 @@ public class Meal {
                 '}';
     }
     public Boolean isEmpty(){
-        if (products.isEmpty()){
-            return true;
-        }
-        return false;
+        return products.isEmpty();
     }
 }
