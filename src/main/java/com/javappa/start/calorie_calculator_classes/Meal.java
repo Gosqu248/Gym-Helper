@@ -1,8 +1,14 @@
 package com.javappa.start.calorie_calculator_classes;
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Setter
+@NoArgsConstructor
 public class Meal {
     private String name;
     private int carbs;
@@ -10,22 +16,22 @@ public class Meal {
     private int proteins;
     private int kcal;
     private List<Product> products;
-    private int id;
+    private long id;
 
-    public Meal(int id, String name, List<Product> products) {
+    public Meal(long id, String name) {
         this.name = name;
-        this.products = products;
         this.id = id;
         this.carbs = 0;
         this.fats = 0;
         this.kcal = 0;
         this.proteins = 0;
+        products = new ArrayList<>();
     }
 
     public String getName() {
         return name;
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -47,7 +53,7 @@ public class Meal {
     public List<Product> getProducts() {
         return products;
     }
-    public void removeProductById(int productId) {
+    public void removeProductById(long productId) {
         Iterator<Product> iterator = products.iterator();
         while (iterator.hasNext()) {
             Product product = iterator.next();
@@ -63,7 +69,6 @@ public class Meal {
     public void addNewProduct(Product product){
         this.products.add(product);
         addMacro(product);
-        return;
     }
     private void subtractMacro(Product product){
         this.kcal -= product.getKcal();
@@ -77,5 +82,24 @@ public class Meal {
         this.fats += product.getFats();
         this.carbs += product.getCarbs();
         this.proteins += product.getProteins();
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "name='" + name + '\'' +
+                ", carbs=" + carbs +
+                ", fats=" + fats +
+                ", proteins=" + proteins +
+                ", kcal=" + kcal +
+                ", products=" + products +
+                ", id=" + id +
+                '}';
+    }
+    public Boolean isEmpty(){
+        if (products.isEmpty()){
+            return true;
+        }
+        return false;
     }
 }

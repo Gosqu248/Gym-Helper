@@ -43,4 +43,5 @@ public class MacroOverview {
             this.progress = this.amount * 100 / this.demand;
         }
     }
+
 }

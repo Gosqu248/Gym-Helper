@@ -73,25 +73,23 @@
                         <input type="hidden" name="mealId" th:value="${meal.id}">
                         <input type="hidden" name="productId" th:value="${product.id}">
                         <button type="submit" class="close-button">×</button>
-                        <span th:text="${product.name}"></span>
-                        <span> | Kcal: <span th:text="${product.kcal}"></span></span>
-                        <span> | Carbs: <span th:text="${product.carbs}"></span></span>
-                        <span> | Fats: <span th:text="${product.fats}"></span></span>
-                        <span> | Proteins: <span th:text="${product.proteins}"></span></span>
-                        <span> | Weight: <span th:text="${product.weight}"></span></span>
+                        <span th:text="${product.name}"></span><br>
+                        <span>Kcal: <span th:text="${product.kcal}"></span></span>
+                        <span> | W: <span th:text="${product.carbs}"></span></span>
+                        <span> | T: <span th:text="${product.fats}"></span></span>
+                        <span> | G: <span th:text="${product.proteins}"></span></span><br>
+                        <span>Waga: <span th:text="${product.weight}"></span></span>
                     </form>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="overview-bar">
-        <form th:each="daily : ${dailies}" class="dailies-list"  th:action="@{/showDetails}" method="post">
-            <button type="submit" style="background-color: #4a4946;">
-                <span th:text="${daily.name}"></span><br>
-                <span th:text="${daily.amount}+'/'+${daily.demand}"></span>
-            </button>
-        </form>
-    </div>
+    <a class="overview-bar">
+        <div th:each="daily : ${dailies}" class="dailies-list">
+            <span th:text="${daily.name}"></span><br>
+            <span th:text="${daily.amount}+'/'+${daily.demand}"></span>
+        </div>
+    </a>
 </div>
 
 <footer>
@@ -354,6 +352,9 @@
             margin: 10px auto;
             width:40%;
             background-color: #4a4946;
+        }
+        .overview-bar:hover {
+        background-color: #8c8989;
         }
         .dailies-list{
             align-items: center;
