@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym App</title>
+
+    <script>
+        function toggleWorkout() {
+            var imageContainers = document.querySelectorAll('.image-text-container');
+
+            imageContainers.forEach(function(container) {
+                if (container.style.display === 'none' || container.style.display === '') {
+                    container.style.display = 'flex';
+                } else {
+                    container.style.display = 'none';
+                }
+
+                container.classList.toggle('show');
+            });
+
+        }
+
+
+        function toggleWorkout2() {
+            var imageContainers = document.querySelectorAll('.image-text-container2');
+
+            imageContainers.forEach(function(container) {
+                if (container.style.display === 'none' || container.style.display === '') {
+                    container.style.display = 'flex';
+                } else {
+                    container.style.display = 'none';
+                }
+
+                container.classList.toggle('show');
+            });
+        }
+
+
+        function toggleWorkout3() {
+            var imageContainers = document.querySelectorAll('.image-text-container3');
+
+            imageContainers.forEach(function(container) {
+                if (container.style.display === 'none' || container.style.display === '') {
+                    container.style.display = 'flex';
+                } else {
+                    container.style.display = 'none';
+                }
+
+                container.classList.toggle('show');
+            });
+        }
+    </script>
+
+
+
+    <style>
+        body {
+            justify-content: center;
+            height: auto;
+            width: 100%;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 40px;
+            color: #f0d841;
+            background-color: #222222;
+            margin: 0;
+        }
+
+        header {
+            background-color: #f0d841;
+            text-align: center;
+            height: 120px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 74px;
+            color: white;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #222222;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 5px;
+        }
+
+        nav {
+            text-align: center;
+            background-color: #222222;
+            padding: 5px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 60px;
+            font-size: 30px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color:#f0d841;
+        }
+
+        #space {
+            height: 7px;
+            background-color: #f0d841;
+        }
+
+        section {
+            background-color: #222222;
+            color: white;
+            padding-top: 5px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui;
+
+        }
+
+
+        section h3 {
+            color: #f0d841;
+            font-size: 40px;
+
+        }
+
+        section h4 {
+            color: white;
+            font-size: 30px;
+
+        }
+
+
+        #opis {
+            width: 1000px;
+            padding-top: 10px;
+            font-size: 25px;
+        }
+
+        .title {
+            margin-left: 250px;
+            width: 330px;
+        }
+
+        .name {
+            margin-top: 150px;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-weight: bold;
+            color: #f0d841;
+        }
+
+        .reps {
+            font-size: 20px;
+        }
+
+        footer {
+            background-color: #f0d841;
+            text-align: center;
+            padding: 5px;
+            color: black;
+            font-size: 19px;
+        }
+
+        #end {
+            background-color: #222222;
+            color: white;
+            text-align: center;
+            height: 60px;
+            width: auto;
+            font-size: 30px;
+            padding-top: 30px;
+
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: black;
+        }
+
+        .toggle-button {
+            background: linear-gradient(to right, #4CAF50, #2196F3); /* Przykładowy gradient */
+            color: white;
+            padding: 10px;
+            width: 250px;
+            height: 50px;
+            margin-top: 30px; /* Dodanie odstępu między przyciskami */
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+
+        }
+
+        .toggle-button2 {
+            background: linear-gradient(to right, #4CAF50, #2196F3); /* Przykładowy gradient */
+            color: white;
+            padding: 10px;
+            width: 250px;
+            height: 50px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-button3 {
+            background: linear-gradient(to right, #4CAF50, #2196F3); /* Przykładowy gradient */
+            color: white;
+            padding: 10px;
+            width: 250px;
+            height: 50px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+        .image-text-container {
+            display: none;
+            flex-direction: row;
+            width: 70vw;
+            height: auto;
+            margin-bottom: 10px;
+            border: 4px solid white;
+            opacity: 0;
+
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .image-text-container2 {
+            display: none;
+            flex-direction: row;
+            width: 70vw;
+            height: auto;
+            margin-bottom: 10px;
+            border: 4px solid white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .image-text-container3 {
+            display: none;
+            flex-direction: row;
+            width: 70vw;
+            height: auto;
+            margin-bottom: 10px;
+            border: 4px solid white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+
+        .image-text-container.show {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
+        .image-text-container2.show {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+
+        }
+
+        .image-text-container3.show {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+<header>
+    <h1 th:text="${logo}"></h1>
+
+    <h2 th:text="${logo2}"></h2>
+</header>
+
+<nav>
+    <a class="nav-link" th:each="link : ${navLinks}" th:href="${link}" th:text="${link == '/' ? 'HOME' : link.substring(1)}"></a>
+</nav>
+
+<div id="space"> </div>
+
+<section class="center">
+    <br>
+    <h3 th:text="${name}"></h3>
+
+    <h4 th:text="${cz}"></h4>
+    <div th:text="${opis}" id="opis"></div>
+
+
+    <button class="toggle-button" onclick="toggleWorkout()">Trening 1</button>
+
+
+    <div  class="image-text-container" th:each="cw : ${cwiczenia}" >
+        <iframe width="940" height="505" th:src="${cw.getDescription()}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <div class="title">
+            <div class="name" th:text="${cw.getName()}"></div>
+            <div class="reps"   th:text="${cw.getSeries()} + ' serie x ' + ${cw.getReps()} + ' powtórzeń'" ></div>
+        </div>
+    </div>
+
+
+    <button class="toggle-button2" onclick="toggleWorkout2()">Trening 2</button>
+    <div class="image-text-container2" th:each="cw : ${cwiczenia2}" >
+        <iframe width="940" height="505" th:src="${cw.getDescription()}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <div class="title">
+            <div class="name" th:text="${cw.getName()}"></div>
+            <div class="reps"   th:text="${cw.getSeries()} + ' serie x ' + ${cw.getReps()} + ' powtórzeń'" ></div>
+        </div>
+    </div>
+
+
+
+    <button class="toggle-button3" onclick="toggleWorkout3()">Trening 3</button>
+    <div class="image-text-container3" th:each="cw : ${cwiczenia3}" >
+        <iframe width="940" height="505" th:src="${cw.getDescription()}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <div class="title">
+            <div class="name" th:text="${cw.getName()}"></div>
+            <div class="reps"   th:text="${cw.getSeries()} + ' serie x ' + ${cw.getReps()} + ' powtórzeń'" ></div>
+        </div>
+    </div>
+
+
+
+
+</section>
+
+<br> <br>
+
+
+<footer>
+    <p1>CORPORATE FITNESS 🔸 NUTRITIONAL ADVICE 🔸 WEIGHT LOSS 🔸 MUSCLE TONE 🔸 CORE STREMGHT 🔸 POSTURE CORRECTION 🔸 CARDIO FITNESS</p1>
+</footer>
+
+<div id="end">
+    <p1>@ 2035 by GymHelper</p1>
+</div>
+
+</body>
+</html>
