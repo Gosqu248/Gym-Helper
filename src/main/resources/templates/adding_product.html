@@ -17,15 +17,24 @@
 
 <div id="space"> </div>
 <div class="content">
-  <a th:each="product : ${products}" class="meal-list-item" th:href="@{/configureProduct}">
-    <input type="hidden" name="productId" th:value="${product.id}">
+  <div th:each="product : ${products}" class="meal-list-item" onclick="showConfigurator(event)">
     <span th:text="${product.name}"></span><br>
     <span>Kcal: <span th:text="${product.kcal}+'g'"></span></span>
     <span> | W: <span th:text="${product.carbs}+'g'"></span></span>
     <span> | T: <span th:text="${product.fats}+'g'"></span></span>
     <span> | B: <span th:text="${product.proteins}+'g'"></span></span><br>
     <span>Sugerowana porcja: <span th:text="${product.weight}+'g'"></span></span>
-  </a>
+    <form class="hidden" id="configurator" method="post" th:action="@{/configureProduct}">
+      <input type="hidden" name="productId" th:value="${product.id}">
+      <input type="hidden" name="name" th:value="${product.name}">
+      <input type="hidden" name="kcal" th:value="${product.kcal}">
+      <input type="hidden" name="carbs" th:value="${product.carbs}">
+      <input type="hidden" name="fats" th:value="${product.fats}">
+      <input type="hidden" name="proteins" th:value="${product.proteins}">
+      <input type="number" name="weight" placeholder="0"><span th:text="g"></span>
+      <button type="submit" class="confirmWeight">OK</button>
+    </form>
+  </div>
 </div>
 
 <footer>
@@ -36,6 +45,16 @@
   <p1 th:text="${endText}"></p1>
 </div>
 </body>
+<script>
+  function showConfigurator(event) {
+        document.querySelectorAll('.hidden').forEach(element => {
+            element.classList.add('hidden');
+        });
+
+        const configurator = event.currentTarget.querySelector('#configurator');
+        configurator.classList.remove('hidden');
+    }
+</script>
   <style>
   .meal-list-item {
             margin: 10px auto;
@@ -47,10 +66,14 @@
             width: 60%;
             display: block;
             font-size: 40px;
+            cursor: pointer;
         }
         .meal-list-item:hover {
     background-color: #8c8989
 }
+.hidden {
+            display: none;
+        }
   .close-button {
             position: absolute;
             top: 0;

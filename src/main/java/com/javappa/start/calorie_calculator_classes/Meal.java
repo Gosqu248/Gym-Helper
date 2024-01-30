@@ -68,7 +68,6 @@ public class Meal {
     public void addNewProduct(Product product){
         this.products.add(product);
         addMacro(product);
-        return;
     }
     private void subtractMacro(Product product){
         this.kcal -= product.getKcal();

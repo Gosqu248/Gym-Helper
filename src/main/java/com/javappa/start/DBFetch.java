@@ -64,8 +64,7 @@ public class DBFetch
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setLong(1, mealId);
                 statement.setLong(2,productId);
-                statement.setLong(3, weight);
-
+                statement.setInt(3, weight);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
