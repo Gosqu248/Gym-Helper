@@ -1,8 +1,13 @@
 package com.javappa.start.calorie_calculator_classes;
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Iterator;
 import java.util.List;
 
+@Setter
+@NoArgsConstructor
 public class Meal {
     private String name;
     private int carbs;

@@ -17,16 +17,15 @@
 
 <div id="space"> </div>
 <div class="content">
-  <form th:each="product : ${products}" class="meal-list-item" th:action="@{/asdasfgas}" method="post">
+  <a th:each="product : ${products}" class="meal-list-item" th:href="@{/configureProduct}">
     <input type="hidden" name="productId" th:value="${product.id}">
-    <button type="submit" class="close-button">×</button>
-    <span th:text="${product.name}"></span>
-    <span> | Kcal: <span th:text="${product.kcal}"></span></span>
-    <span> | Carbs: <span th:text="${product.carbs}"></span></span>
-    <span> | Fats: <span th:text="${product.fats}"></span></span>
-    <span> | Proteins: <span th:text="${product.proteins}"></span></span>
-    <span> | Weight: <span th:text="${product.weight}"></span></span>
-  </form>
+    <span th:text="${product.name}"></span><br>
+    <span>Kcal: <span th:text="${product.kcal}+'g'"></span></span>
+    <span> | W: <span th:text="${product.carbs}+'g'"></span></span>
+    <span> | T: <span th:text="${product.fats}+'g'"></span></span>
+    <span> | B: <span th:text="${product.proteins}+'g'"></span></span><br>
+    <span>Sugerowana porcja: <span th:text="${product.weight}+'g'"></span></span>
+  </a>
 </div>
 
 <footer>
@@ -39,13 +38,19 @@
 </body>
   <style>
   .meal-list-item {
-            margin: 5px 0;
+            margin: 10px auto;
             background-color: #666;
             color: white;
             border: 2px
-            padding: 5px;
+            padding: 10px;
             position: relative;
+            width: 60%;
+            display: block;
+            font-size: 40px;
         }
+        .meal-list-item:hover {
+    background-color: #8c8989
+}
   .close-button {
             position: absolute;
             top: 0;

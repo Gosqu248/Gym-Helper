@@ -25,4 +25,8 @@ public class AddProductController extends DBFetch{
         model.addAttribute("endText", "@ 2035 by GymHelper");
         return "adding_product";
     }
+    @GetMapping("/configureProduct")
+    public String configureProduct(){
+        return "redirect:/Kalkulator Kalorii";
+    }
 }

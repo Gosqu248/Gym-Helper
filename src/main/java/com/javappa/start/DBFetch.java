@@ -34,19 +34,20 @@ public class DBFetch
         }
         return porady;
     }
+    //Products and meals
     public List<Product> retrieveProductFromDatabase() {
         List<Product> products = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            String query = "SELECT * FROM aplikacja.produkt_spozywczy";
+            String query = "SELECT * FROM aplikacja.produkt_spozywczy LIMIT 20;";
             try (PreparedStatement statement = connection.prepareStatement(query);
                  ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     String name = resultSet.getString("nazwa_produktu");
-                    long id = resultSet.getInt("id_porady");
+                    long id = resultSet.getInt("id_produktu");
                     int kcal = resultSet.getInt("kalorie");
                     int carbs = resultSet.getInt("weglowodany");
                     int fats = resultSet.getInt("tluszcze");
-                    int proteins = resultSet.getInt("bialka");
+                    int proteins = resultSet.getInt("bialko");
                     int weight = resultSet.getInt("waga_porcji");
                     Product product = new Product(id, name, kcal, carbs, fats, proteins, weight);
                     products.add(product);
@@ -56,5 +57,19 @@ public class DBFetch
             e.printStackTrace();
         }
         return products;
+    }
+    public void saveProductInMealToDatabase(long mealId, long productId, int weight) {
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "INSERT INTO aplikacja.produkt_w_posilku(id_posilku, id_produktu, waga_produktu) VALUES (?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setLong(1, mealId);
+                statement.setLong(2,productId);
+                statement.setLong(3, weight);
+
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
