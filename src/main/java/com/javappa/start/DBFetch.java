@@ -154,4 +154,21 @@ public class DBFetch {
 
         return meals;
     }
+    public void removeProductFromMeal(long mealId, long productId){
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "DELETE FROM aplikacja.produkt_w_posilku WHERE id_posilku = ? AND id_produktu = ?;";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setLong(1, mealId);
+                statement.setLong(2,productId);
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Rekord został usunięty.");
+                } else {
+                    System.out.println("Nie znaleziono rekordu o podanym ID.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

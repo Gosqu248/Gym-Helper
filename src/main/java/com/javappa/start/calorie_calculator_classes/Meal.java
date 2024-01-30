@@ -53,7 +53,7 @@ public class Meal {
     public List<Product> getProducts() {
         return products;
     }
-    public void removeProductById(int productId) {
+    public void removeProductById(long productId) {
         Iterator<Product> iterator = products.iterator();
         while (iterator.hasNext()) {
             Product product = iterator.next();

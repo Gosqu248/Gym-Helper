@@ -86,17 +86,21 @@ public class KalkulatorKaloriiController extends DBFetch {
         return "redirect:/Kalkulator Kalorii";
     }
     @PostMapping("/removeProduct")
-    private String removeProduct(@RequestParam String mealId, @RequestParam String productId){
-        System.out.println("Usuwam produkt o ID: " + productId+" "+mealId);
-        tmp = false;
-        meals.get(Integer.valueOf(mealId)).removeProductById(Integer.valueOf(productId));
-
+    private String removeProduct(@RequestParam long mealId, @RequestParam long productId){
+        Iterator<Meal> iterator = meals.iterator();
+        while (iterator.hasNext()) {
+            Meal meal = iterator.next();
+            if (meal.getId() == mealId) {
+                meal.removeProductById(productId);
+                removeProductFromMeal(mealId,productId);
+                System.out.println("Usuwam produkt o ID: " + productId+" "+mealId);
+                break;
+            }
+        }
         return "redirect:/Kalkulator Kalorii";
     }
     @PostMapping("/addProduct")
     private String addProduct (@RequestParam String mealId, Model model){
-        model.addAttribute("chosenMeal", mealId);
-        model.addAttribute("currentDate",currentDate.format(formatter));
         chosenMealId = Long.parseLong(mealId);
         return "redirect:/Add product";
     }
@@ -118,6 +122,7 @@ public class KalkulatorKaloriiController extends DBFetch {
                 meal.addNewProduct(product);
                 saveProductInMealToDatabase(chosenMealId, productId, weight);
                 System.out.println("Added: " + product.getName());
+                break;
             }
         }
         return "redirect:/Kalkulator Kalorii";

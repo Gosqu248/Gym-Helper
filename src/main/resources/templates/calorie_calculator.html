@@ -73,12 +73,12 @@
                         <input type="hidden" name="mealId" th:value="${meal.id}">
                         <input type="hidden" name="productId" th:value="${product.id}">
                         <button type="submit" class="close-button">×</button>
-                        <span th:text="${product.name}"></span>
-                        <span> | Kcal: <span th:text="${product.kcal}"></span></span>
+                        <span th:text="${product.name}"></span><br>
+                        <span>Kcal: <span th:text="${product.kcal}"></span></span>
                         <span> | Carbs: <span th:text="${product.carbs}"></span></span>
                         <span> | Fats: <span th:text="${product.fats}"></span></span>
-                        <span> | Proteins: <span th:text="${product.proteins}"></span></span>
-                        <span> | Weight: <span th:text="${product.weight}"></span></span>
+                        <span> | Proteins: <span th:text="${product.proteins}"></span></span><br>
+                        <span>Weight: <span th:text="${product.weight}"></span></span>
                     </form>
                 </li>
             </ul>
