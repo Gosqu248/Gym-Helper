@@ -83,4 +83,17 @@ public class Meal {
         this.carbs += product.getCarbs();
         this.proteins += product.getProteins();
     }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "name='" + name + '\'' +
+                ", carbs=" + carbs +
+                ", fats=" + fats +
+                ", proteins=" + proteins +
+                ", kcal=" + kcal +
+                ", products=" + products +
+                ", id=" + id +
+                '}';
+    }
 }

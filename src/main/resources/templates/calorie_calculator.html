@@ -84,14 +84,12 @@
             </ul>
         </div>
     </div>
-    <div class="overview-bar">
-        <form th:each="daily : ${dailies}" class="dailies-list"  th:action="@{/showDetails}" method="post">
-            <button type="submit" style="background-color: #4a4946;">
-                <span th:text="${daily.name}"></span><br>
-                <span th:text="${daily.amount}+'/'+${daily.demand}"></span>
-            </button>
-        </form>
-    </div>
+    <a class="overview-bar">
+        <div th:each="daily : ${dailies}" class="dailies-list">
+            <span th:text="${daily.name}"></span><br>
+            <span th:text="${daily.amount}+'/'+${daily.demand}"></span>
+        </div>
+    </a>
 </div>
 
 <footer>
@@ -354,6 +352,9 @@
             margin: 10px auto;
             width:40%;
             background-color: #4a4946;
+        }
+        .overview-bar:hover {
+        background-color: #8c8989;
         }
         .dailies-list{
             align-items: center;

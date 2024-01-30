@@ -30,32 +30,26 @@ public class KalkulatorKaloriiController extends DBFetch {
         model.addAttribute("logo", "Gym Helper");
         model.addAttribute("logo2", "Optimal Fitness Lifestyle");
 
+        if(tmp) {
+            changeDates();
+            meals = retrieveMealsContent(currentDate, userId);
+            tmp = false;
+        }
+
+
         List<String> navLinks = new ArrayList<>();
         navLinks.add("/");
         navLinks.add("/Plany Treningowe");
         navLinks.add("/Kalkulator Kalorii");
         navLinks.add("/Porady");
         model.addAttribute("navLinks", navLinks);
-        changeDates();
 
         model.addAttribute("circleContentsPrev", circleContentsPrev);
         model.addAttribute("circleCurrentLabel", currentDate.format(formatterPl).substring(0, 1).toUpperCase());
         model.addAttribute("circleCurrentValue", Integer.toString(currentDate.getDayOfMonth()));
         model.addAttribute("circleContentsPost", circleContentsPost);
 
-        if(tmp) {
-            meals = retrieveMealsContent(currentDate, userId);
-            /*meals.add(new Meal(1,"Śniadanie"));
-            meals.add(new Meal(2,"Obiad"));
-
-            meals.get(0).addNewProduct(new Product("Jajko", 70, 1, 5, 6, 100));
-            meals.get(0).addNewProduct(new Product("Chleb", 250, 50, 2, 5, 100));
-            meals.get(1).addNewProduct(new Product("Stek", 200, 0, 10, 20, 150));
-            meals.get(1).addNewProduct(new Product("Ryż", 150, 30, 1, 3, 100));*/
-            tmp = false;
-        }
         //TODO overview based on meals
-        //Temporary overview testing
         ArrayList<MacroOverview> dailies = new ArrayList<>();
 
         dailies.add(new MacroOverview("Białko",10,100));
@@ -75,6 +69,8 @@ public class KalkulatorKaloriiController extends DBFetch {
     @PostMapping("/updateCircle")
     public String updateCircle(@RequestParam String label, @RequestParam String value) {
         currentDate = datesInCalendar.get((label+value));
+        changeDates();
+        meals = retrieveMealsContent(currentDate, userId);
         return "redirect:/Kalkulator Kalorii";
     }
     @PostMapping("/scrollCircles")
@@ -85,6 +81,8 @@ public class KalkulatorKaloriiController extends DBFetch {
         }else if(direction.equals("left")){
             currentDate = currentDate.minusDays(11);
         }
+        changeDates();
+        meals = retrieveMealsContent(currentDate, userId);
         return "redirect:/Kalkulator Kalorii";
     }
     @PostMapping("/removeProduct")

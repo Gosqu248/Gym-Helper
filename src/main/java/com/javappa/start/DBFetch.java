@@ -7,6 +7,7 @@ import org.springframework.cglib.core.Local;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @NoArgsConstructor
@@ -82,7 +83,7 @@ public class DBFetch {
             String query = "SELECT * FROM aplikacja.odzywianie " +
                     "WHERE data = ? AND id_uzytkownika = ?;";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setDate(1, java.sql.Date.valueOf(date));
+                statement.setDate(1, java.sql.Date.valueOf(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
                 statement.setLong(2, userId);
 
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -100,9 +101,10 @@ public class DBFetch {
     public List<Meal> retrieveMealsContent(LocalDate date, long userId) {
         List<Long> mealIds = retrieveMealsByDay(date, userId);
         List<Meal> meals = new ArrayList<>();
-        if (meals.isEmpty()) {
+        if (mealIds.isEmpty()) {
             return meals;
         }
+
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String placeholders = String.join(",", Collections.nCopies(mealIds.size(), "?"));
 
@@ -149,6 +151,7 @@ public class DBFetch {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return meals;
     }
 }
