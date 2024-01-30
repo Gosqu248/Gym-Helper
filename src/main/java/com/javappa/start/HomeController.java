@@ -1,12 +1,9 @@
 package com.javappa.start;
 
-import com.javappa.start.calorie_calculator_classes.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

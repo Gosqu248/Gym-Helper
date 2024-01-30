@@ -65,11 +65,11 @@
             background-color: #222222;
             color: white;
             padding-top: 5px;
-            text-align: center;
-            align-items: center;
+            text-align: left;
             display: flex;
             flex-direction: column;
             font-family: system-ui;
+            text-decoration: none;
 
         }
 
@@ -93,7 +93,7 @@
 
         section h3 {
             text-align: center;
-            font-size: 30px;
+            font-size: 40px;
             font-weight: bold;
             background: linear-gradient(45deg, #f0d841, #00bfff, #26de26);
             -webkit-background-clip: text;
@@ -110,34 +110,35 @@
             padding-bottom: 10px;
         }
 
-        #porada1 {
-            background-image: url('/img/porada1.png');
-            width: 550px;
-            height: 200px;
+        #plan1 {
+            background-image: url('/img/level0.jpg');
+            width: 650px;
+            height: 400px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            margin: auto;
+            margin-left: -50px;
+
         }
 
-        #porada2 {
-            background-image: url('/img/porada2.png');
-            width: 550px;
-            height: 200px;
+        #plan2 {
+            background-image: url('/img/level1.jpg');
+            width: 650px;
+            height: 400px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            margin: auto;
+            margin-left: 110px;
         }
 
-        #porada3 {
-            background-image: url('/img/porada3.png');
-            width: 550px;
-            height: 200px;
+        #plan3 {
+            background-image: url('/img/level2.jpg');
+            width: 650px;
+            height: 400px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            margin: auto;
+            margin-left: 200px;
         }
 
         footer {
@@ -159,6 +160,46 @@
 
         }
 
+        .image-text-container {
+            display: flex;
+            flex-direction: row;
+            text-decoration: none;
+            text-decoration-color: #f0d841;
+            align-items: center;
+            justify-content: center;
+
+        }
+        .inner-container {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            margin-left: 150px;
+            text-decoration: none;
+            margin-bottom: 50px;
+
+        }
+        .inner-container2 {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            margin-left: 150px;
+            text-decoration: none;
+            margin-top: -40px;
+
+        }
+
+        .xd {
+            text-decoration: none;
+            color: white;
+
+        }
+
+        .xd:hover {
+            color:#f0d841;
+
+        }
+
+
     </style>
 </head>
 
@@ -178,28 +219,40 @@
 
 
 <section>
+    <br>
 
-    <h3 th:text="${porady}"></h3>
+    <h3 th:text="${plan}"></h3>
     <p th:text="${description}"></p>
+    <br>    <br>
+
+
+
+
+
+    <a class="xd" th:href="${nav1}">
+            <div class="image-text-container">
+                <div class="inner-container" id="plan1"></div>
+                <div class="inner-container2" th:text="${plan1}"></div>
+            </div>
+        </a>
+
     <br>
 
-    <div>
-        <a th:href="${nav1}">
-            <div id="porada1"></div>
-        </a>
-    </div>
+    <a class="xd" th:href="${nav2}">
+        <div class="image-text-container">
+            <div class="inner-container" id="plan2"></div>
+            <div class="inner-container2" th:text="${plan2}"></div>
+        </div>
+    </a>
+
     <br>
-    <div>
-        <a th:href="${nav2}">
-            <div id="porada2"></div>
-        </a>
-    </div>
-    <br>
-    <div>
-        <a th:href="${nav3}">
-            <div id="porada3"></div>
-        </a>
-    </div>
+    <a class="xd" th:href="${nav3}">
+        <div class="image-text-container">
+            <div class="inner-container" id="plan3"></div>
+            <div class="inner-container2" th:text="${plan3}"></div>
+        </div>
+    </a>
+
     <br>
 </section>
 

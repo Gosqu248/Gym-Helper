@@ -3,7 +3,6 @@ package com.javappa.start;
 import com.javappa.start.calorie_calculator_classes.Meal;
 import com.javappa.start.calorie_calculator_classes.Product;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -11,7 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @NoArgsConstructor
-public class DBFetch {
+public class DBFetch
+{
     public static final String url = "jdbc:postgresql://195.150.230.208:5432/2023_urban_grzegorz";
     public static final String username = "2023_urban_grzegorz";
     public static final String password = "35240";
@@ -36,6 +36,62 @@ public class DBFetch {
         }
         return porady;
     }
+
+    public List<Plan> retrievePlanFromDatabase() {
+        List<Plan> plany = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "SELECT * FROM aplikacja.plan_treningowy";
+            try (PreparedStatement statement = connection.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id_planu");
+                    String name = resultSet.getString("nazwa_planu");
+                    String description = resultSet.getString("opis");
+                    String lvl = resultSet.getString("poziom_zaawansowania");
+                    int id_user = resultSet.getInt("id_uzytkownika");
+                    Plan plan = new Plan(id, name, description, lvl, id_user);
+                    plany.add(plan);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return plany;
+    }
+
+    public List<Cwiczenia> retrieveExerciseFromDatabase(int nrPlanu, int jedn) {
+        List<Cwiczenia> cwiczenia = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = """
+                    SELECT pt.id_planu, cwt."id_jednostki", cw."nazwa_cwiczenia", cwt."liczba_serii", cwt."liczba_powtorzen", cw.opis
+                    FROM aplikacja.plan_treningowy pt
+                    JOIN aplikacja.cwiczenie_w_treningu cwt ON pt."id_planu" = cwt."id_planu"
+                    JOIN aplikacja.cwiczenie cw ON cwt."id_cwiczenia" = cw."id_cwiczenia"
+                    WHERE pt."id_planu" = ? AND cwt."id_jednostki" = ?
+                    """; // Zmiana: wyszukiwanie po id_planu
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, nrPlanu);
+                statement.setInt(2, jedn);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("id_planu");
+                        int id_jednostki = resultSet.getInt("id_jednostki");
+                        String name = resultSet.getString("nazwa_cwiczenia");
+                        int series = resultSet.getInt("liczba_serii");
+                        int reps = resultSet.getInt("liczba_powtorzen");
+                        String description = resultSet.getString("opis");
+
+                        Cwiczenia cw = new Cwiczenia(id, id_jednostki, name, series, reps, description);
+                        cwiczenia.add(cw);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cwiczenia;
+    }
+
 
     //Products
     public List<Product> retrieveProductFromDatabase() {
@@ -250,3 +306,5 @@ public class DBFetch {
         return false;
     }
 }
+
+

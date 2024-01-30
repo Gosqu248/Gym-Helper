@@ -28,7 +28,7 @@ public class Porada1Controller extends DBFetch{
         model.addAttribute("name2", porady.get(1).getTytul());
         model.addAttribute("text2", porady.get(1).getTresc());
 
-        model.addAttribute("name3", "Podsumowanie");
+        model.addAttribute("name3", porady.get(2).getTytul());
         model.addAttribute("text3", "Początki na siłowni nie należą do łatwych. Aby nie zniechęcić się do aktywności fizycznej, warto pamiętać o kilku podstawowych zasadach:");
 
         List<String> podsumowanieList = Arrays.asList(
