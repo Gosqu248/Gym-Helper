@@ -44,7 +44,7 @@ public class KalkulatorKaloriiController extends DBFetch {
         model.addAttribute("circleContentsPost", circleContentsPost);
 
         if(tmp) {
-            meals = retrieveMealsContent(LocalDate.of(2023, 12, 7), userId);
+            meals = retrieveMealsContent(currentDate, userId);
             /*meals.add(new Meal(1,"Śniadanie"));
             meals.add(new Meal(2,"Obiad"));
 

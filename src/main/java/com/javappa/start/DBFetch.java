@@ -100,6 +100,9 @@ public class DBFetch {
     public List<Meal> retrieveMealsContent(LocalDate date, long userId) {
         List<Long> mealIds = retrieveMealsByDay(date, userId);
         List<Meal> meals = new ArrayList<>();
+        if (meals.isEmpty()) {
+            return meals;
+        }
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String placeholders = String.join(",", Collections.nCopies(mealIds.size(), "?"));
 
@@ -135,7 +138,9 @@ public class DBFetch {
                             int fats = resultSet.getInt("tluszcze");
                             int proteins = resultSet.getInt("bialko");
                             int weight = resultSet.getInt("waga_produktu");
-                            meal.addNewProduct(new Product(id, name, kcal, carbs, fats, proteins, weight));
+                            Product tmp = new Product(id, name, kcal, carbs, fats, proteins, weight);
+                            tmp.adjustToWeight();
+                            meal.addNewProduct(tmp);
                         }
                     }
                 }
