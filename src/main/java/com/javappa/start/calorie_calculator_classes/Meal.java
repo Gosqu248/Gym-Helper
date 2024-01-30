@@ -3,6 +3,7 @@ package com.javappa.start.calorie_calculator_classes;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,22 +16,22 @@ public class Meal {
     private int proteins;
     private int kcal;
     private List<Product> products;
-    private int id;
+    private long id;
 
-    public Meal(int id, String name, List<Product> products) {
+    public Meal(long id, String name) {
         this.name = name;
-        this.products = products;
         this.id = id;
         this.carbs = 0;
         this.fats = 0;
         this.kcal = 0;
         this.proteins = 0;
+        products = new ArrayList<>();
     }
 
     public String getName() {
         return name;
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -25,7 +25,6 @@ public class Product {
     public Product(String _name, int kcal, int carbs, int fats, int proteins, int weight){
         this.name=_name;
         this.kcal = kcal;
-        this.id = id;
         this.carbs = carbs;
         this.fats = fats;
         this.proteins = proteins;

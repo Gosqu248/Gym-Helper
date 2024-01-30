@@ -24,6 +24,7 @@ public class KalkulatorKaloriiController extends DBFetch {
     private List<Meal> meals = new ArrayList<>();
     private Boolean tmp = true;
     private long chosenMealId;
+    private long userId =1;
     @GetMapping("/Kalkulator Kalorii")
     public String calculator(Model model) {
         model.addAttribute("logo", "Gym Helper");
@@ -43,13 +44,14 @@ public class KalkulatorKaloriiController extends DBFetch {
         model.addAttribute("circleContentsPost", circleContentsPost);
 
         if(tmp) {
-            meals.add(new Meal(1,"Śniadanie", new ArrayList<>()));
-            meals.add(new Meal(2,"Obiad", new ArrayList<>()));
+            meals = retrieveMealsContent(LocalDate.of(2023, 12, 7), userId);
+            /*meals.add(new Meal(1,"Śniadanie"));
+            meals.add(new Meal(2,"Obiad"));
 
             meals.get(0).addNewProduct(new Product("Jajko", 70, 1, 5, 6, 100));
             meals.get(0).addNewProduct(new Product("Chleb", 250, 50, 2, 5, 100));
             meals.get(1).addNewProduct(new Product("Stek", 200, 0, 10, 20, 150));
-            meals.get(1).addNewProduct(new Product("Ryż", 150, 30, 1, 3, 100));
+            meals.get(1).addNewProduct(new Product("Ryż", 150, 30, 1, 3, 100));*/
             tmp = false;
         }
         //TODO overview based on meals
