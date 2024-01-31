@@ -1,7 +1,7 @@
-package com.javappa.start.calorie_calculator_classes.Controllers;
+package com.javappa.start.Calorie_calculator.Controllers;
 
-import com.javappa.start.Classes.DBFetch;
-import com.javappa.start.calorie_calculator_classes.Classes.Product;
+import com.javappa.start.Other_classes.DBFetch;
+import com.javappa.start.Calorie_calculator.Classes.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

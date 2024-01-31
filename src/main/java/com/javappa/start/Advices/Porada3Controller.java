@@ -1,6 +1,6 @@
 package com.javappa.start.Advices;
 
-import com.javappa.start.Classes.DBFetch;
+import com.javappa.start.Other_classes.DBFetch;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,10 +1,10 @@
-package com.javappa.start.Classes;
+package com.javappa.start.Other_classes;
 
 import com.javappa.start.Exercises.Cwiczenia;
 import com.javappa.start.Exercises.Plan;
 import com.javappa.start.Advices.PoradaTreningowa;
-import com.javappa.start.calorie_calculator_classes.Classes.Meal;
-import com.javappa.start.calorie_calculator_classes.Classes.Product;
+import com.javappa.start.Calorie_calculator.Classes.Meal;
+import com.javappa.start.Calorie_calculator.Classes.Product;
 import lombok.NoArgsConstructor;
 
 import java.sql.*;

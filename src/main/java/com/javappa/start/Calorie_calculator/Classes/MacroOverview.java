@@ -1,7 +1,11 @@
-package com.javappa.start.calorie_calculator_classes.Classes;
+package com.javappa.start.Calorie_calculator.Classes;
 
+import lombok.Setter;
+import org.springframework.stereotype.Service;
+
+@Setter
 public class MacroOverview {
-
+    private String name;
     private int amount;
     private int demand;
     private int progress;
@@ -10,8 +14,6 @@ public class MacroOverview {
         this.amount = amount;
         this.demand = demand;
     }
-    private String name;
-
     public String getName() {
         return name;
     }

@@ -1,9 +1,12 @@
-package com.javappa.start.calorie_calculator_classes.Classes;
+package com.javappa.start.Calorie_calculator.Classes;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.crypto.Mac;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -65,6 +68,17 @@ public class Meal {
             }
         }
         System.out.println("Product under such id does not exist!.");
+    }
+    public Product getProductById(long productId){
+        Iterator<Product> iterator = products.iterator();
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getId() == productId) {
+                return product;
+            }
+        }
+        System.out.println("Product under such id does not exist!.");
+        return null;
     }
     public void addNewProduct(Product product){
         this.products.add(product);
