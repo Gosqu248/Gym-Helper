@@ -299,6 +299,34 @@ public class DBFetch
         }
         return false;
     }
+
+    public List<User> retrieveUserFromDatabase() {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "SELECT * FROM aplikacja.uzytkownik";
+            try (PreparedStatement statement = connection.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id_uzytkownika");
+                    String name = resultSet.getString("imie");
+                    String surrname = resultSet.getString("nazwisko");
+                    String email = resultSet.getString("email");
+                    String username = resultSet.getString("nazwa_uzytkownika");
+                    String password = resultSet.getString("haslo");
+
+                    User user = new User(id, username, password, name, surrname, email);
+                    users.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        User admin = new User(1, "admin", "1234", "admin@example.com", "admin", "admin123");
+        users.add(admin);
+
+
+        return users;
+    }
 }
 
 
