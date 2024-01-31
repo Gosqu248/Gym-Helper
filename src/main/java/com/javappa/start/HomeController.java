@@ -1,14 +1,23 @@
 package com.javappa.start;
 
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Controller
 public class HomeController {
+
+    private List<User> users = new ArrayList<>();
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public String hello(Model model) {
@@ -35,6 +44,12 @@ public class HomeController {
         model.addAttribute("endText", "@ 2035 by GymHelper");
 
         return "hello";
+    }
+
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
 
