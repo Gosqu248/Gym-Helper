@@ -11,14 +11,13 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 public class User {
     private long id;
     private String name;
     private String surname;
     private String email;
-    private String nick;
+    private String username;
     private String password;
 
 
