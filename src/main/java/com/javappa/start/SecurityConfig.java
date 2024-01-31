@@ -1,5 +1,6 @@
 package com.javappa.start;
 
+import com.javappa.start.Other_classes.DBFetch;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,17 +15,17 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends DBFetch{
+public class SecurityConfig extends DBFetch {
 
 
-    List<com.javappa.start.User> users = retrieveUserFromDatabase();
+    List<com.javappa.start.Other_classes.User> users = retrieveUserFromDatabase();
 
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                for (com.javappa.start.User user : users) {
+                for (com.javappa.start.Other_classes.User user : users) {
                     if (user.getUsername().equals(username)) {
                         return User.builder()
                                 .username(user.getUsername())
