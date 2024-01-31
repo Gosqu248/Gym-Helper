@@ -1,5 +1,6 @@
-package com.javappa.start;
+package com.javappa.start.Advices;
 
+import com.javappa.start.Classes.DBFetch;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-public class Porada3Controller extends DBFetch{
+public class Porada3Controller extends DBFetch {
 
     @GetMapping("/Porada3")
     public String porada3(Model model) {

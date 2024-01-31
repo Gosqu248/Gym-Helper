@@ -1,5 +1,7 @@
-package com.javappa.start;
+package com.javappa.start.Exercises;
 
+import com.javappa.start.Classes.DBFetch;
+import com.javappa.start.Exercises.Plan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

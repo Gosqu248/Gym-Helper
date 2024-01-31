@@ -1,4 +1,4 @@
-package com.javappa.start.calorie_calculator_classes;
+package com.javappa.start.calorie_calculator_classes.Classes;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;

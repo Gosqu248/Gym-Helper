@@ -1,4 +1,4 @@
-package com.javappa.start;
+package com.javappa.start.Advices;
 
 public class PoradaTreningowa {
     private int idPorady;

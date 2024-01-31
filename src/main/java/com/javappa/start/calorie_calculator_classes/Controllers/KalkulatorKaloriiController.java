@@ -1,8 +1,10 @@
-package com.javappa.start.calorie_calculator_classes;
+package com.javappa.start.calorie_calculator_classes.Controllers;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-import com.javappa.start.DBFetch;
-import org.springframework.boot.Banner;
+import com.javappa.start.Classes.DBFetch;
+import com.javappa.start.calorie_calculator_classes.Classes.Day;
+import com.javappa.start.calorie_calculator_classes.Classes.MacroOverview;
+import com.javappa.start.calorie_calculator_classes.Classes.Meal;
+import com.javappa.start.calorie_calculator_classes.Classes.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -76,7 +78,7 @@ public class KalkulatorKaloriiController extends DBFetch {
         return "redirect:/Kalkulator Kalorii";
     }
     @PostMapping("/scrollCircles")
-    public String scrollCirles(@RequestParam String direction) {
+    public String scrollCircles(@RequestParam String direction) {
 
         if (direction.equals("right")){
             currentDate = currentDate.plusDays(11);

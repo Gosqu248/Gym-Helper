@@ -1,15 +1,20 @@
-package com.javappa.start;
+package com.javappa.start.Exercises;
 
+import com.javappa.start.Classes.DBFetch;
+import com.javappa.start.Exercises.Cwiczenia;
+import com.javappa.start.Exercises.Plan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Arrays;
 import java.util.List;
+
 @Controller
-public class Plan2Controller extends DBFetch{
-    @GetMapping("/Plan2")
-    public String plan2(Model model) {
+public class Plan1Controller extends DBFetch {
+
+    @GetMapping("/Plan1")
+    public String plan1(Model model) {
         model.addAttribute("logo", "Gym Helper");
         model.addAttribute("logo2", "Optimal Fitness Lifestyle");
 
@@ -21,17 +26,17 @@ public class Plan2Controller extends DBFetch{
 
         List<Plan> plany = retrievePlanFromDatabase();
 
-        model.addAttribute("name", "Plan " +plany.get(8).getName() + "  (" + plany.get(8).getLvl() + ")");
+        model.addAttribute("name", "Plan " +plany.get(65).getName() + "  (" + plany.get(65).getLvl() + ")");
 
-        List<Cwiczenia> cwiczenia1 =  retrieveExerciseFromDatabase(10,1);
+        List<Cwiczenia> cwiczenia1 =  retrieveExerciseFromDatabase(7,1);
 
         model.addAttribute("cwiczenia", cwiczenia1);
 
-        List<Cwiczenia> cwiczenia2 =  retrieveExerciseFromDatabase(10,2);
+        List<Cwiczenia> cwiczenia2 =  retrieveExerciseFromDatabase(7,2);
 
         model.addAttribute("cwiczenia2", cwiczenia2);
 
-        List<Cwiczenia> cwiczenia3 =  retrieveExerciseFromDatabase(10,3);
+        List<Cwiczenia> cwiczenia3 =  retrieveExerciseFromDatabase(7,3);
 
         model.addAttribute("cwiczenia3", cwiczenia3);
 
@@ -46,6 +51,6 @@ public class Plan2Controller extends DBFetch{
 
         model.addAttribute("endText", "@ 2035 by GymHelper");
 
-        return "plan2";
+        return "plan1";
     }
 }

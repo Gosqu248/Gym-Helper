@@ -16,6 +16,13 @@
 </nav>
 
 <div id="space"> </div>
+
+<div class="search-bar">
+  <form th:action="@{/searchProducts}" method="post">
+    <input  class="search-input" type="text" name="searchPhrase" placeholder="Wpisz frazę wyszukiwania" th:value="${searchPhrase}">
+    <button class="search-button" type="submit">Szukaj</button>
+  </form>
+</div>
 <div class="content">
   <div th:each="product : ${products}" class="meal-list-item" onclick="showConfigurator(event)">
     <span th:text="${product.name}"></span><br>
@@ -56,6 +63,25 @@
     }
 </script>
   <style>
+  input {
+  margin: 0.4rem 0;
+  }
+  .search-bar {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .search-input {
+    width: 300px;
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  .search-button {
+    width: 120px;
+    padding: 10px;
+    font-size: 16px;
+  }
+
   .meal-list-item {
             margin: 10px auto;
             background-color: #666;
@@ -138,6 +164,7 @@
 
         .content{
           justify-content: center;
+          text-align: center;
           align-items: center;
           height: auto;
           color: black;

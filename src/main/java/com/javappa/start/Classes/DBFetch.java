@@ -1,7 +1,10 @@
-package com.javappa.start;
+package com.javappa.start.Classes;
 
-import com.javappa.start.calorie_calculator_classes.Meal;
-import com.javappa.start.calorie_calculator_classes.Product;
+import com.javappa.start.Exercises.Cwiczenia;
+import com.javappa.start.Exercises.Plan;
+import com.javappa.start.Advices.PoradaTreningowa;
+import com.javappa.start.calorie_calculator_classes.Classes.Meal;
+import com.javappa.start.calorie_calculator_classes.Classes.Product;
 import lombok.NoArgsConstructor;
 
 import java.sql.*;
@@ -94,22 +97,26 @@ public class DBFetch
 
 
     //Products
-    public List<Product> retrieveProductFromDatabase() {
+    public List<Product> retrieveProductsFromDatabase(String searchPhrase) {
         List<Product> products = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            String query = "SELECT * FROM aplikacja.produkt_spozywczy LIMIT 20;";
-            try (PreparedStatement statement = connection.prepareStatement(query);
-                 ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    String name = resultSet.getString("nazwa_produktu");
-                    long id = resultSet.getInt("id_produktu");
-                    int kcal = resultSet.getInt("kalorie");
-                    int carbs = resultSet.getInt("weglowodany");
-                    int fats = resultSet.getInt("tluszcze");
-                    int proteins = resultSet.getInt("bialko");
-                    int weight = resultSet.getInt("waga_porcji");
-                    Product product = new Product(id, name, kcal, carbs, fats, proteins, weight);
-                    products.add(product);
+            String query = "SELECT * FROM aplikacja.produkt_spozywczy WHERE nazwa_produktu LIKE ? LIMIT 20;";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, "%" + searchPhrase + "%");
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        long id = resultSet.getInt("id_produktu");
+                        String name = resultSet.getString("nazwa_produktu");
+                        int kcal = resultSet.getInt("kalorie");
+                        int carbs = resultSet.getInt("weglowodany");
+                        int fats = resultSet.getInt("tluszcze");
+                        int proteins = resultSet.getInt("bialko");
+                        int weight = resultSet.getInt("waga_porcji");
+
+                        Product product = new Product(id, name, kcal, carbs, fats, proteins, weight);
+                        products.add(product);
+                    }
                 }
             }
         } catch (SQLException e) {

@@ -1,26 +1,27 @@
-package com.javappa.start.calorie_calculator_classes;
+package com.javappa.start.calorie_calculator_classes.Controllers;
 
-import com.javappa.start.DBFetch;
+import com.javappa.start.Classes.DBFetch;
+import com.javappa.start.calorie_calculator_classes.Classes.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
 public class AddProductController extends DBFetch{
     private List<Product> products;
+    private String searchPhrase = "";
+
     @GetMapping("/Add product")
     public String addProduct(Model model){
         model.addAttribute("logo", "Gym Helper");
         model.addAttribute("logo2", "Optimal Fitness Lifestyle");
 
-        products = retrieveProductFromDatabase();
+        products = retrieveProductsFromDatabase(searchPhrase);
         List<String> navLinks = Arrays.asList("/", "/Plany Treningowe","/Kalkulator Kalorii","/Porady");
         model.addAttribute("products", products);
         model.addAttribute("navLinks", navLinks);
@@ -29,5 +30,9 @@ public class AddProductController extends DBFetch{
         model.addAttribute("endText", "@ 2035 by GymHelper");
         return "adding_product";
     }
-
+    @PostMapping("/searchProducts")
+    public String searchProducts(@RequestParam(name = "searchPhrase") String text){
+        searchPhrase=text;
+        return "redirect:/Add product";
+    }
 }
