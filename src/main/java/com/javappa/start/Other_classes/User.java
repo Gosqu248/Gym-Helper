@@ -12,7 +12,7 @@ public class User {
     private String username;
     private String password;
     private String name;
-    private String surrname;
+    private String surname;
     private String email;
 
     public User() {
@@ -23,7 +23,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.name = name;
-        this.surrname = surrname;
+        this.surname = surrname;
         this.email = email;
     }
 
@@ -60,11 +60,11 @@ public class User {
     }
 
     public String getSurrname() {
-        return surrname;
+        return surname;
     }
 
     public void setSurrname(String surrname) {
-        this.surrname = surrname;
+        this.surname = surrname;
     }
 
     public String getEmail() {
